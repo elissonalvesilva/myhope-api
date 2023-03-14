@@ -1,11 +1,11 @@
 import User from "@/domain/user/entity";
 
 export default interface UserRepository {
-  getUserById(id: string): Promise<User | Error>
-  getUserByEmail(email: string): Promise<User | Error>
-  getResetCodeByUserId(id: string): Promise<number | Error>
-  createUser<T>(user: User): Promise<T>
-  updateUser(user: User): Promise<boolean | Error>
-  updatePassword(id: string, password: string): Promise<boolean | Error>
+  getUserById(id: string): Promise<User>
+  getUserByEmail(email: string): Promise<User>
+  getResetCodeByUserId(id: string): Promise<number>
+  createUser(user: User): Promise<User>
+  updateUser(user: User): Promise<boolean>
+  updatePassword(id: string, password: string): Promise<boolean>
 }
 

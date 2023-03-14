@@ -1,9 +1,8 @@
 import AccountFactory from "@/domain/account/factory";
 import { AccountRepository } from "@/domain/account/repository";
-import User from "@/domain/user/entity";
 import UserRepository from "@/domain/user/repository";
-import { UserInfo } from "@/app/user/protocols";
 import Hashing from "@/app/protocols/hashing";
+import User from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 
 
@@ -14,12 +13,20 @@ export default class UserApplication {
     private readonly hashingId: Hashing,
   ){}
 
-  async getUserById(id: string): Promise<User | Error> {
-    return await this.userRepository.getUserById(id)
+  async getUserById(id: string): Promise<User> {
+    try {
+      return await this.userRepository.getUserById(id);
+    } catch (error) {
+      throw error
+    }
   }
 
-  async getUserByEmail(email: string): Promise<User | Error> {
-    return await this.userRepository.getUserByEmail(email)
+  async getUserByEmail(email: string): Promise<User> {
+    try {
+      return await this.userRepository.getUserByEmail(email);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getResetCode(id: string): Promise<number | Error> {
@@ -28,7 +35,7 @@ export default class UserApplication {
 
   async createUser(user: User): Promise<boolean> {
     try {
-      const userCreated = await this.userRepository.createUser<UserInfo>(user);
+      const userCreated = await this.userRepository.createUser(user);
       const accountNumber = AccountService.accountNumber();
       const accountId = this.hashingId.hash();
       const buildedAccount = AccountFactory.create(
@@ -36,6 +43,7 @@ export default class UserApplication {
         accountNumber,
         0,
       );
+
       await this.accountRepository.createAccount(buildedAccount, userCreated.id);
       return true;
     } catch (error) {
