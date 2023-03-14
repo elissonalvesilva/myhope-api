@@ -1,5 +1,6 @@
 import Question from "@/domain/quiz/value-objects/question";
 
+
 export default class Quiz {
   private _id: string;
   private _type: string;

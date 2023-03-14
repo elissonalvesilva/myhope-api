@@ -1,7 +1,7 @@
 import Answer from "./answer";
 
 export default class Question {
-  private _id: number;
+  private _id: string;
   private _type: string;
   private _question: string;
   private _answers: Answer[];
@@ -12,7 +12,7 @@ export default class Question {
   private _selectedAnswer?: Answer;
 
   constructor(
-    id: number,
+    id: string,
     type: string,
     question:  string,
     answers: Answer[],
@@ -33,7 +33,7 @@ export default class Question {
     return this._id
   }
   
-  set id(val: number) {
+  set id(val: string) {
     this._id = val
   }
   

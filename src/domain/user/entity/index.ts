@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import Account from "@/domain/account/entity";
 import Quiz from "@/domain/quiz/entity";
 
@@ -11,7 +13,7 @@ export default class User {
   private _email: string;
   private _password: string;
   private _image?: string;
-  private _account: Account;
+  private _account?: Account;
   private _status: Status;
   private _finishedQuizzes?: Quiz[];
 
@@ -21,7 +23,6 @@ export default class User {
     lastName: string,
     email: string,
     password: string,
-    account: Account,
     status: Status = 'ACTIVE',
   ) {
     this._id = id;
@@ -29,7 +30,6 @@ export default class User {
     this._email = email;
     this._lastName = lastName;
     this._password = password;
-    this._account = account;
     this._status = status;
     this.validate();
   }
@@ -90,14 +90,6 @@ export default class User {
     this._status = val
   }
   
-  get account() {
-    return this._account
-  }
-  
-  set account(val: Account) {
-    this._account = val
-  }
-  
   get finishedQuizzes() {
     return this._finishedQuizzes || []
   }
@@ -124,8 +116,6 @@ export default class User {
     if(this._lastName.length === 0) {
       throw new Error('LastName must be pass');
     }
-
-    this._account.validate();
   }
 
   updateStatus(status: Status): void {
@@ -147,5 +137,13 @@ export default class User {
     }, 0);
   }
 
-  
+  addAccount(account: Account) {
+    this.validate();
+    this._account = account;
+  }
+
+  getAccount(): Account | null {
+    return this._account ? this._account : null;
+  }
+
 }

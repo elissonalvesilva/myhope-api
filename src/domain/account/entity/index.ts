@@ -14,6 +14,8 @@ export default class Account {
     this._id = id;
     this._accountNumber = accountNumber;
     this._balance = balance;
+
+    this.validate();
   }
 
   get id() {
