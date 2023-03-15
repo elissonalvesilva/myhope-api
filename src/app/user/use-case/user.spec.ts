@@ -6,7 +6,6 @@ import Account from "@/domain/account/entity";
 import Statement from "@/domain/account/entity/statement";
 import { faker } from "@faker-js/faker";
 import User from "@/domain/user/entity";
-import { UserInfo } from "@/app/user/protocols";
 
 const fakeAccount = (): Account => {
   return new Account(
