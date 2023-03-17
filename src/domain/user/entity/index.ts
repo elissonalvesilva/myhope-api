@@ -1,10 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
-
 import Account from "@/domain/account/entity";
 import Quiz from "@/domain/quiz/entity";
 
 
-export type Status = 'ACTIVE' | 'INACTIVE' | 'RESET' 
+export type Status = 'ACTIVE' | 'INACTIVE' | 'RESET';
 
 export default class User {
   private _id: string;
