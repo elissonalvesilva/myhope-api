@@ -4,7 +4,6 @@ import mongoose, { Schema, Document } from "mongoose";
 interface UserModel extends UserDTO, Document{}
 
 const userSchema = new Schema({
-  id: String,
   name: String,
   lastName: String,
   password: String,
@@ -12,6 +11,10 @@ const userSchema = new Schema({
   status: String,
   account: Object,
   finishedQuizzes: Array,
+});
+
+userSchema.set('toJSON', {
+  virtuals: true
 });
 
 export default mongoose.model<UserModel>('user', userSchema);
