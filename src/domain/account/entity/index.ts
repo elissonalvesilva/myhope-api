@@ -50,6 +50,10 @@ export default class Account {
     this._statements = val
   }
 
+  addStatement(val: Statement) {
+    this._statements?.push(val);
+  }
+
   validate(): void {
     if(this._accountNumber.length === 0) {
       throw new Error('account number must be pass');

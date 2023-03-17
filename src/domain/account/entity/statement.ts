@@ -2,15 +2,18 @@ export default class Statement {
   private _id: string;
   private _date: Date;
   private _content: string;
+  private _accountId: string;
 
   constructor(
     id: string,
     date: Date,
-    content: string
+    content: string,
+    accountId: string,
   ) {
     this._id = id;
     this._date = date;
     this._content = content;
+    this._accountId = accountId;
   }
 
   get id() {
@@ -35,5 +38,13 @@ export default class Statement {
   
   set content(val: string) {
     this._content = val
+  }
+
+  get accountId() {
+    return this._accountId;
+  }
+
+  set accountId(id: string) {
+    this._accountId = id;
   }
 }
