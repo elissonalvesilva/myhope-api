@@ -11,6 +11,7 @@ const userSchema = new Schema({
   status: String,
   account: Object,
   finishedQuizzes: Array,
+  resetCode: Number,
 });
 
 userSchema.set('toJSON', {
