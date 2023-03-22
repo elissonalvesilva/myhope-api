@@ -1,6 +1,8 @@
+import { Result } from "true-myth";
 import Hashing from "@/app/protocols/hashing";
 import Statement from "@/domain/account/entity/statement";
 import { AccountRepository } from "@/domain/account/repository";
+import AccountError from "@/app/account/error";
 
 export default class AccountApplication {
   constructor(
@@ -8,22 +10,37 @@ export default class AccountApplication {
     private readonly accountRepository: AccountRepository,
   ){}
 
-  async updateUserBalance(userId: string, value: number): Promise<boolean> {
-    try {
-      const account = await this.accountRepository.getAccountByUserId(userId);
-      account.balance = account.balance + value;
-      await this.accountRepository.updateBalance(account);
-      
-      const statement = new Statement(
-        this.hashing.hash(),
-        new Date(),
-        value.toString(),
-      );
-
-      await this.accountRepository.addStatements(account, statement);
-      return true;
-    } catch (error) {
-      throw error;
+  async updateUserBalance(userId: string, value: number): Promise<Result<boolean, AccountError>> {
+    const account = await this.accountRepository.getAccountByUserId(userId);
+    if(!account) {
+      return Result.err(new AccountError({
+        name: "ERR_ACCOUNT_NOT_FOUND",
+        message: "account not found",
+      }));
     }
+    account.balance = account.balance + value;
+    const isUpdated = await this.accountRepository.updateBalance(account);
+    if(!isUpdated) {
+      return Result.err(new AccountError({
+        name: "ERR_CANT_UPDATE_BALANCE",
+        message: "account not found",
+      }));
+    }
+      
+    const statement = new Statement(
+      this.hashing.hash(),
+      new Date(),
+      value.toString(),
+      account.id,
+    );
+
+    const resp = await this.accountRepository.addStatements(account, statement);
+    if(!resp) {
+      return Result.err(new AccountError({
+        name: "ERR_TO_ADD_STATEMENT",
+        message: "error to add statement",
+      }));
+    }
+    return Result.ok(true);
   } 
 }
