@@ -1,0 +1,19 @@
+import { ErrorBase } from "@/domain/@/shared/error";
+
+type ERR_QUIZ_NOT_FOUND = "ERR_QUIZ_NOT_FOUND";
+type ERR_EMPTY_QUIZ = "ERR_EMPTY_QUIZ";
+type ERR_CANT_CREATE_QUIZ = "ERR_CANT_CREATE_QUIZ";
+type ERR_CANT_DELETE_QUIZ = "ERR_CANT_DELETE_QUIZ";
+type ERR_NOT_FOUND_QUIZ_BY_PARAMS = "ERR_NOT_FOUND_QUIZ_BY_PARAMS";
+type ERR_CANT_UPDATE_QUIZ = "ERR_CANT_UPDATE_QUIZ";
+
+type ErrorType =
+  | ERR_QUIZ_NOT_FOUND
+  | ERR_EMPTY_QUIZ
+  | ERR_CANT_CREATE_QUIZ
+  | ERR_CANT_DELETE_QUIZ
+  | ERR_NOT_FOUND_QUIZ_BY_PARAMS
+  | ERR_CANT_UPDATE_QUIZ
+  
+
+export default class QuizError extends ErrorBase<ErrorType> {} 
