@@ -2,6 +2,9 @@ import Hashing from "@/app/protocols/hashing";
 import Session from "@/domain/session/entity";
 import SessionRepository from "@/domain/session/repository";
 import User from "@/domain/user/entity";
+import { Result } from "true-myth";
+import { SessionResponseDTO } from "@/app/session/dto";
+import SessionError from "../error";
 
 export default class SessionApplication {
   constructor(
@@ -9,15 +12,26 @@ export default class SessionApplication {
     private readonly sessionRepository: SessionRepository,
   ){}
 
-  async createSession(user: User): Promise<Session> {
-    try {
-      return await this.sessionRepository.createSession();
-    } catch (error) {
-      throw error;
+  async createSession(user: User): Promise<Result<SessionResponseDTO, SessionError>> {
+    const session = await this.sessionRepository.createSession();
+    if(!session) {
+      return Result.err(new SessionError({
+        name: "ERR_CREATE_SESSION",
+        message: "error to create session",
+      }));
     }
+
+    const sessionResponse: SessionResponseDTO = {
+      id: session.id,
+      token: session.token,
+      expiredDate: session.expireDate,
+    };
+
+    return Result.ok(sessionResponse)
   }
 
   async updateSession(idSession: string, userId: string): Promise<Session> {
+    // TODO: need to creata a update session with token
     try {
       return await this.sessionRepository.updateSessionToken(idSession, '');
     } catch (error) {
@@ -25,31 +39,44 @@ export default class SessionApplication {
     }
   }
 
-  async getSession(userId: string): Promise<Session> {
-    try {
-      return await this.sessionRepository.getSessionByUser(userId);
-    } catch (error) {
-      throw error;
+  async getSession(userId: string): Promise<Result<SessionResponseDTO, SessionError>> {
+    const session = await this.sessionRepository.getSessionByUser(userId);
+    if(!session) {
+      return Result.err(new SessionError({
+        name: "ERR_NOT_FOUND_SESSION",
+        message: "not found session",
+      }))
     }
+
+    const sessionResponse: SessionResponseDTO = {
+      id: session.id,
+      token: session.token,
+      expiredDate: session.expireDate,
+    };
+
+    return Result.ok(sessionResponse);
   }
 
   async deleteSession(id: string): Promise<void> {
-    try {
-      await this.sessionRepository.delete(id);
-    } catch (error) {
-      throw error;
-    }
+    await this.sessionRepository.delete(id);
   }
 
-  async validateSession(currentSession: Session, userId: string): Promise<boolean> {
-    try{
-      const session = await this.sessionRepository.getSessionByUser(userId);
-      if(session.expireDate > currentSession.expireDate) {
-        return true
-      }
-      return false;
-    }catch(error) {
-      throw error;
+  async validateSession(currentSession: Session, userId: string): Promise<Result<boolean, SessionError>> {
+    const session = await this.sessionRepository.getSessionByUser(userId);
+    if(!session) {
+      return Result.err(new SessionError({
+        name: "ERR_NOT_FOUND_SESSION",
+        message: "not found session for this user",
+      }))
     }
+      
+    if(session.expireDate > currentSession.expireDate) {
+      return Result.ok(true);
+    }
+
+    return Result.err(new SessionError({
+      name: "ERR_INVALID_SESSION",
+      message: "invalid session for this user",
+    }))
   }
 }
