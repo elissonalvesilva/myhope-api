@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import User from '@/domain/user/entity';
 import Account from '@/domain/account/entity';
 import Quiz from '@/domain/quiz/entity';
-import Question from '@/domain/quiz/value-objects/question';
+import Question from '@/domain/quiz/entity/question';
 import Answer from '@/domain/quiz/entity/answer';
 
 describe('User entity', () => {
@@ -157,7 +157,6 @@ describe('User entity', () => {
         [answer],
         answer,
         fakeQuestions[0].value,
-        false
       )
 
       const quiz = new Quiz(
@@ -231,7 +230,6 @@ describe('User entity', () => {
         [answer],
         answer,
         fakeQuestions[0].value,
-        false
       )
 
       question.addSelectedAnswer(answer);

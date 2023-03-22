@@ -109,6 +109,7 @@ describe('Account UseCase', () => {
       '123',
       new Date(2020, 9, 1, 7),
       (10).toString(),
+      '1',
     )
 
     expect(spyAddStatements).toHaveBeenCalledWith(
