@@ -6,7 +6,7 @@ import Hashing from "@/app/protocols/hashing";
 import User, { UserResponse } from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
-import { UserCreatedResponseDTO } from "../dtos";
+import { UserCreatedResponseDTO } from "@/app/user/dtos";
 
 
 export default class UserApplication {

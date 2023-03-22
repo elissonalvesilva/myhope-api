@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import Quiz from "@/domain/quiz/entity";
-import Answer from "@/domain/quiz/value-objects/answer";
-import Question from "@/domain/quiz/value-objects/question";
+import Answer from "@/domain/quiz/entity/answer";
+import Question from "@/domain/quiz/entity/question";
 
 describe('Quiz Entity', () => {
   test('Quiz class should have correct properties and methods', () => {
@@ -38,7 +38,6 @@ describe('Quiz Entity', () => {
       [answer],
       answer,
       fakeQuestions[0].value,
-      false
     )
 
     const quiz = new Quiz(

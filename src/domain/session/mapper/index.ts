@@ -1,5 +1,5 @@
 import Mapper from "@/domain/@/shared/domain/mapper";
-import Session from "../entity";
+import Session from "@/domain/session/entity";
 
 export default class SessionMapper implements Mapper<Session> {
   

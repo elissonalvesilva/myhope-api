@@ -4,7 +4,7 @@ import User from '@/domain/user/entity';
 import Account from '@/domain/account/entity';
 import Quiz from '@/domain/quiz/entity';
 import Question from '@/domain/quiz/value-objects/question';
-import Answer from '@/domain/quiz/value-objects/answer';
+import Answer from '@/domain/quiz/entity/answer';
 
 describe('User entity', () => {
   test('should return an error when email is not provided', () => {

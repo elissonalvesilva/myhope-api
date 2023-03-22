@@ -4,7 +4,7 @@ import SessionRepository from "@/domain/session/repository";
 import User from "@/domain/user/entity";
 import { Result } from "true-myth";
 import { SessionResponseDTO } from "@/app/session/dto";
-import SessionError from "../error";
+import SessionError from "@/app/session/error";
 
 export default class SessionApplication {
   constructor(

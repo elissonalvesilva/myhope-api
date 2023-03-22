@@ -1,10 +1,12 @@
-import Question from "@/domain/quiz/value-objects/question";
+import Question from "@/domain/quiz/entity/question";
 
 
 export default class Quiz {
   private _id: string;
   private _type: string;
   private _questions: Question[];
+  private _isWithTime: boolean = false;
+  private _timeInSeconds?: number;
 
   constructor(
     id: string,
@@ -38,6 +40,22 @@ export default class Quiz {
   
   set questions(val: Question[]) {
     this._questions = val
+  }
+
+  get isWithTime() {
+    return this._isWithTime
+  }
+  
+  set isWithTime(val: boolean) {
+    this._isWithTime = val
+  }
+  
+  get timeInSeconds() {
+    return this._timeInSeconds || 0
+  }
+  
+  set timeInSeconds(val: number) {
+    this._timeInSeconds = val
   }
 
   resultQuiz() {

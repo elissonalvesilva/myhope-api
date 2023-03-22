@@ -1,14 +1,12 @@
-import Answer from "./answer";
+import Answer from "@/domain/quiz/entity/answer";
 
 export default class Question {
   private _id: string;
   private _type: string;
   private _question: string;
   private _answers: Answer[];
-  private _correctAnswer: Answer;
+  private _correctAnswer?: Answer;
   private _value: number;
-  private _isWithTime: boolean;
-  private _timeInSeconds?: number;
   private _selectedAnswer?: Answer;
 
   constructor(
@@ -18,7 +16,6 @@ export default class Question {
     answers: Answer[],
     correctAnswer: Answer,
     value: number,
-    isWithTime:  boolean,
   ) {
     this._id = id;
     this._type = type;
@@ -26,7 +23,6 @@ export default class Question {
     this._answers = answers;
     this._correctAnswer = correctAnswer;
     this._value = value;
-    this._isWithTime = isWithTime;
   }
 
   get id() {
@@ -61,8 +57,8 @@ export default class Question {
     this._answers = val
   }
   
-  get correctAnswer() {
-    return this._correctAnswer
+  getCorrectAnswer() {
+    return this._correctAnswer ? this._correctAnswer : undefined;
   }
   
   set correctAnswer(val: Answer) {
@@ -75,22 +71,6 @@ export default class Question {
   
   set value(val: number) {
     this._value = val
-  }
-  
-  get isWithTime() {
-    return this._isWithTime
-  }
-  
-  set isWithTime(val: boolean) {
-    this._isWithTime = val
-  }
-  
-  get timeInSeconds() {
-    return this._timeInSeconds || 0
-  }
-  
-  set timeInSeconds(val: number) {
-    this._timeInSeconds = val
   }
 
   getSelectedAnswer(): Answer | undefined {
