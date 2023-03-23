@@ -1,12 +1,12 @@
 export default class Answer {
   private _id: number;
   private _text: string;
-  private _isCorret: boolean = false;
+  private _isCorrect: boolean = false;
 
-  constructor(id: number, text: string, isCorret: boolean = false) {
+  constructor(id: number, text: string, isCorrect: boolean = false) {
     this._id = id;
     this._text = text;
-    this._isCorret = isCorret
+    this._isCorrect = isCorrect
   }
 
   get id() {
@@ -25,11 +25,11 @@ export default class Answer {
     this._text = val
   }
 
-  get isCorret() {
-    return this._isCorret;
+  get isCorrect() {
+    return this._isCorrect;
   }
 
-  set isCorret(val: boolean) {
-    this._isCorret = val;
+  set isCorrect(val: boolean) {
+    this._isCorrect = val;
   }
 }

@@ -155,8 +155,8 @@ describe('User entity', () => {
         fakeQuestions[0].type,
         fakeQuestions[0].question,
         [answer],
-        answer,
         fakeQuestions[0].value,
+        answer,
       )
 
       const quiz = new Quiz(
@@ -228,8 +228,8 @@ describe('User entity', () => {
         fakeQuestions[0].type,
         fakeQuestions[0].question,
         [answer],
-        answer,
         fakeQuestions[0].value,
+        answer,
       )
 
       question.addSelectedAnswer(answer);

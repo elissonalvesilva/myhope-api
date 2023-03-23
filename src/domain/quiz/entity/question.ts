@@ -14,8 +14,8 @@ export default class Question {
     type: string,
     question:  string,
     answers: Answer[],
-    correctAnswer: Answer,
     value: number,
+    correctAnswer?: Answer,
   ) {
     this._id = id;
     this._type = type;

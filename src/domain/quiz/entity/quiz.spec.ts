@@ -36,8 +36,8 @@ describe('Quiz Entity', () => {
       fakeQuestions[0].type,
       fakeQuestions[0].question,
       [answer],
-      answer,
       fakeQuestions[0].value,
+      answer,
     )
 
     const quiz = new Quiz(
