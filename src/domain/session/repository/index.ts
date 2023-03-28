@@ -4,5 +4,6 @@ export default interface SessionRepository {
   createSession(): Promise<Session>
   updateSessionToken(idSession: string, token: string): Promise<Session>
   getActiveSessionByUser(userId: string): Promise<Session>
-  delete(idSession: string): void
+  delete(idSession: string): void;
+  getByToken(token: string): Promise<Session | null>
 }

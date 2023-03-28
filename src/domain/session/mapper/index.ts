@@ -8,6 +8,7 @@ export default class SessionMapper implements Mapper<Session> {
       raw.id,
       raw.token,
       raw.expireDate,
+      raw.userId,
     )
   }
   

@@ -25,6 +25,7 @@ export default class SessionApplication {
       id: session.id,
       token: session.token,
       expiredDate: session.expireDate,
+      userId: session.userId,
     };
 
     return Result.ok(sessionResponse)
@@ -52,6 +53,7 @@ export default class SessionApplication {
       id: session.id,
       token: session.token,
       expiredDate: session.expireDate,
+      userId: session.userId,
     };
 
     return Result.ok(sessionResponse);
@@ -61,8 +63,8 @@ export default class SessionApplication {
     await this.sessionRepository.delete(id);
   }
 
-  async validateSession(currentSession: Session, userId: string): Promise<Result<boolean, SessionError>> {
-    const session = await this.sessionRepository.getSessionByUser(userId);
+  async validateSession(currentSession: Session): Promise<Result<boolean, SessionError>> {
+    const session = await this.sessionRepository.getActiveSessionByUser(currentSession.userId);
     if(!session) {
       return Result.err(new SessionError({
         name: "ERR_NOT_FOUND_SESSION",
@@ -78,5 +80,24 @@ export default class SessionApplication {
       name: "ERR_INVALID_SESSION",
       message: "invalid session for this user",
     }))
+  }
+
+  async getSessionByToken(token: string): Promise<Result<SessionResponseDTO, SessionError>> {
+    const session = await this.sessionRepository.getByToken(token);
+    if(!session) {
+      return Result.err(new SessionError({
+        name: "ERR_NOT_FOUND_SESSION",
+        message: "not found session",
+      }))
+    }
+
+    const sessionResponse: SessionResponseDTO = {
+      id: session.id,
+      token: session.token,
+      expiredDate: session.expireDate,
+      userId: session.userId,
+    };
+
+    return Result.ok(sessionResponse);
   }
 }
