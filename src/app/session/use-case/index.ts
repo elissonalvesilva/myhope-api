@@ -40,7 +40,7 @@ export default class SessionApplication {
   }
 
   async getSession(userId: string): Promise<Result<SessionResponseDTO, SessionError>> {
-    const session = await this.sessionRepository.getSessionByUser(userId);
+    const session = await this.sessionRepository.getActiveSessionByUser(userId);
     if(!session) {
       return Result.err(new SessionError({
         name: "ERR_NOT_FOUND_SESSION",

@@ -37,6 +37,9 @@ export default class CreateUserController implements BaseController {
           case "ERR_USER_NOT_CREATED": {
             return badRequest(response.error)
           }
+          case "ERR_USER_ALREADY_EXISTS": {
+            return badRequest(response.error);
+          }
         }
       }
     

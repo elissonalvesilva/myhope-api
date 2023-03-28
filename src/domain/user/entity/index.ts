@@ -146,4 +146,12 @@ export default class User {
     return this._account ? this._account : null;
   }
 
+  getPassword(): string {
+    return this._password;
+  }
+
+  setPassword(val: string) {
+    this._password = val;
+  }
+
 }
