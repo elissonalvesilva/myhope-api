@@ -38,7 +38,7 @@ export default class SessionApplication {
   async updateSession(idSession: string, userId: string): Promise<Session> {
     // TODO: need to creata a update session with token
     try {
-      return await this.sessionRepository.updateSessionToken(idSession, '');
+      return await this.sessionRepository.updateSessionToken(idSession, userId);
     } catch (error) {
       throw error;
     }
@@ -114,8 +114,8 @@ export default class SessionApplication {
       }))
     }
 
-    const encrytedPassword = this.hashing.hash(password);
-    if(!this.hashing.compare(encrytedPassword, user.getPassword())) {
+    const encrytedPassword = this.crypto.encrypt(password);
+    if(!this.crypto.compare(encrytedPassword, user.getPassword())) {
       return Result.err(new SessionError({
         name: "ERR_USER_OR_PASSWORD_IS_INVALID",
         message: "user or password is invalid",

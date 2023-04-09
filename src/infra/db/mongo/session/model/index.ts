@@ -5,6 +5,7 @@ interface SessionModel extends SessionDTO, Document{}
 
 
 const sessionSchema = new Schema({
+  userId: String,
   token: String,
   expiredDate: Date,
 });

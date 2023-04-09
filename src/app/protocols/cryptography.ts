@@ -1,4 +1,4 @@
 export default interface Cryptography {
   encrypt(str: string): string;
-  decrypt(val1: string, val2: string): boolean
+  compare(cryptoStr1: string, cryptoStr2: string): boolean | null;
 }
