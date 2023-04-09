@@ -19,12 +19,12 @@ export default class QuizMapper implements Mapper<Quiz> {
               answer.text,
             )
           }),
+          raw.value,
           new Answer(
             raw.id,
             raw.text,
+            raw.isCorrect,
           ),
-          raw.value,
-          true,
         )
       }),
     )

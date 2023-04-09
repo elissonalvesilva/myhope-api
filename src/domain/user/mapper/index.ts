@@ -4,7 +4,7 @@ import User from "@/domain/user/entity";
 export default class UserMapper implements Mapper<User> {
   constructor() {}
   toDomain(raw: any): User {
-    return new User(
+    const user = new User(
       raw.id,
       raw.name,
       raw.lastName,
@@ -12,6 +12,12 @@ export default class UserMapper implements Mapper<User> {
       raw.password,
       raw.status
     )
+
+    if(raw.finishedQuizzes){
+      user.finishedQuizzes = raw.finishedQuizzes;
+    }
+
+    return user;
   }
 
 

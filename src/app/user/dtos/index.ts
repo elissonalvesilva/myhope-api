@@ -2,6 +2,22 @@ import Account from "@/domain/account/entity";
 import Quiz from "@/domain/quiz/entity";
 import { Status } from "@/domain/user/entity";
 
+
+interface Answers {
+  idQuestion: string;
+  idSelectedAnswer: string;
+}
+
+export interface UserSubmitQuiz {
+  idQuiz: string;
+  selectedAnswers: Answers[];
+}
+
+export interface SubmitQuizResponse {
+  totalCorrectResponse: number;
+  countQuestions: number;
+}
+
 export interface UserCreatedResponseDTO {
   name: string;
   lastName: string;
