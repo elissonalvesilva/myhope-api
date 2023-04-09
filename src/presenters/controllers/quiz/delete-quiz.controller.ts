@@ -15,16 +15,19 @@ export default class DeleteQuizController implements BaseController {
       } = request.query;
 
       const response = await this.quizApplication.deleteQuiz(id);
-      if(response.isErr) {
-        const errCode = response.error.name;
+      if(response.isErr()) {
+        const errCode = response.value.name;
         switch(errCode) {
           case "ERR_QUIZ_NOT_FOUND": {
-            return badRequest(response.error)
+            return badRequest(response.value)
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"))
           }
         }
       }
     
-      return response.isOk ? ok('deleted') : badRequest(new Error("Unreconized error"));
+      return ok('deleted');
     } catch (error: any) {
       return serverError(error);
     }

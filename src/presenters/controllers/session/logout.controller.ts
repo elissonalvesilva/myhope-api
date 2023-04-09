@@ -15,16 +15,19 @@ export default class LogoutController implements BaseController {
 
 
       const session = await this.sessionApplication.getSession(userId);
-      if(session.isErr) {
-        const errCode = session.error.name;
+      if(session.isErr()) {
+        const errCode = session.value.name;
         switch(errCode) {
           case "ERR_NOT_FOUND_SESSION": {
-            return badRequest(session.error);
+            return badRequest(session.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      const sessionId = session.isOk ? session.value.id : '';
+      const sessionId = session.value.id;
       if(sessionId === '') {
         return badRequest(new Error('Occurs some error during process session value'));
       }

@@ -1,4 +1,5 @@
-import { Result } from "true-myth";
+
+import { Result, err, ok } from "@/domain/@/shared/result";
 import Hashing from "@/app/protocols/hashing";
 import Statement from "@/domain/account/entity/statement";
 import { AccountRepository } from "@/domain/account/repository";
@@ -13,7 +14,7 @@ export default class AccountApplication {
   async updateUserBalance(userId: string, value: number): Promise<Result<boolean, AccountError>> {
     const account = await this.accountRepository.getAccountByUserId(userId);
     if(!account) {
-      return Result.err(new AccountError({
+      return err(new AccountError({
         name: "ERR_ACCOUNT_NOT_FOUND",
         message: "account not found",
       }));
@@ -21,7 +22,7 @@ export default class AccountApplication {
     account.balance = account.balance + value;
     const isUpdated = await this.accountRepository.updateBalance(account);
     if(!isUpdated) {
-      return Result.err(new AccountError({
+      return err(new AccountError({
         name: "ERR_CANT_UPDATE_BALANCE",
         message: "account not found",
       }));
@@ -36,11 +37,11 @@ export default class AccountApplication {
 
     const resp = await this.accountRepository.addStatements(account, statement);
     if(!resp) {
-      return Result.err(new AccountError({
+      return err(new AccountError({
         name: "ERR_TO_ADD_STATEMENT",
         message: "error to add statement",
       }));
     }
-    return Result.ok(true);
+    return ok(true);
   } 
 }

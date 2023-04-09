@@ -30,19 +30,22 @@ export default class SubmitQuizController implements BaseController {
       }
 
       const code = await this.userApplication.submitQuiz(userId, quiz);
-      if(code.isErr) {
-        const errCode = code.error.name;
+      if(code.isErr()) {
+        const errCode = code.value.name;
         switch(errCode) {
           case "ERR_SUBMITED_QUIZ_NOT_FOUND": {
-            return notFound(code.error);
+            return notFound(code.value);
           }
           case "ERR_SUBMITED_QUIZ": {
-            return badRequest(code.error);
+            return badRequest(code.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return code.isOk ? ok(code.value) : badRequest(new Error("Unreconized error"));
+      return ok(code.value);
     } catch (error: any) {
       return serverError(error);
     }

@@ -28,22 +28,25 @@ export default class CreateUserController implements BaseController {
       const user = UserFactory.create({ id, name, lastName, email, password: encryptedPassword });
 
       const response = await this.userApplication.createUser(user)
-      if(response.isErr) {
-        const errCode = response.error.name;
+      if(response.isErr()) {
+        const errCode = response.value.name;
         switch(errCode) {
           case "ERR_CREATE_ACCOUNT": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
           case "ERR_USER_NOT_CREATED": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
           case "ERR_USER_ALREADY_EXISTS": {
-            return badRequest(response.error);
+            return badRequest(response.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
     
-      return response.isOk ? ok(response.value) : badRequest(new Error("Unreconized error"));
+      return ok(response.value);
     } catch (error: any) {
       return serverError(error);
     }

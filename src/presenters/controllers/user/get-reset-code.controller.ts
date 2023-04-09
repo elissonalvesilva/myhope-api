@@ -12,16 +12,19 @@ export default class GetResetCodeController implements BaseController {
   async handle(request: any): Promise<HttpResponse> {
     try {
       const code = await this.userApplication.getResetCode(request.userId);
-      if(code.isErr) {
-        const errCode = code.error.name;
+      if(code.isErr()) {
+        const errCode = code.value.name;
         switch(errCode) {
           case "ERR_RESET_CODE_USER_NOT_FOUND": {
-            return notFound(code.error);
+            return notFound(code.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return code.isOk ? ok(code.value) : badRequest(new Error("Unreconized error"));
+      return ok(code.value);
     } catch (error: any) {
       return serverError(error);
     }

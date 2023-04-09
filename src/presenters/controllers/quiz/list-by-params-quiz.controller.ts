@@ -16,19 +16,22 @@ export default class GetQuizzesByParamsController implements BaseController {
       } = request.body
 
       const response = await this.quizApplication.listQuizByParams(filter);
-      if(response.isErr) {
-        const errCode = response.error.name;
+      if(response.isErr()) {
+        const errCode = response.value.name;
         switch(errCode) {
           case "ERR_EMPTY_QUIZ": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
           case "ERR_NOT_FOUND_QUIZ_BY_PARAMS": {
-            return badRequest(response.error)
+            return badRequest(response.value)
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
     
-      return response.isOk ? ok(response.value) : badRequest(new Error("Unreconized error"));
+      return ok(response.value);
     } catch (error: any) {
       return serverError(error);
     }

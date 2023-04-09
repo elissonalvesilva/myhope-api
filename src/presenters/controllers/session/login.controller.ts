@@ -16,19 +16,22 @@ export default class LoginController implements BaseController {
       } = request.body;
 
       const session = await this.sessionApplication.signIn(email, password);
-      if(session.isErr) {
-        const errCode = session.error.name;
+      if(session.isErr()) {
+        const errCode = session.value.name;
         switch(errCode) {
           case "ERR_USER_OR_PASSWORD_IS_INVALID": {
             return unauthorized();
           }
           case "ERR_CREATE_SESSION": {
-            return badRequest(session.error);
+            return badRequest(session.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return session.isOk ? ok(session.value) : badRequest(new Error("Unreconized error"));
+      return ok(session.value);
 
     } catch (error: any) {
       return serverError(error);

@@ -16,16 +16,19 @@ export default class GetUserByIdController implements BaseController {
       } = request.query;
 
       const user = await this.userApplication.getUserById(id);
-      if(user.isErr) {
-        const errCode = user.error.name;
+      if(user.isErr()) {
+        const errCode = user.value.name;
         switch(errCode) {
           case "ERR_USER_NOT_FOUND": {
-            return notFound(user.error);
+            return notFound(user.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return user.isOk ? ok(user.value) : badRequest(new Error("Unreconized error"));
+      return ok(user.value);
     } catch (error: any) {
       return serverError(error);
     }

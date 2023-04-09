@@ -17,22 +17,25 @@ export default class AccountController implements BaseController {
       } = request.body;
 
       const response = await this.accountApplication.updateUserBalance(request.userId, amount);
-      if(response.isErr){
-        const errCode = response.error.name;
+      if(response.isErr()){
+        const errCode = response.value.name;
         switch(errCode) {
           case "ERR_ACCOUNT_NOT_FOUND": {
-            return notFound(response.error)
+            return notFound(response.value)
           }
           case "ERR_CANT_UPDATE_BALANCE": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
           case "ERR_TO_ADD_STATEMENT": {
-            return badRequest(response.error)
+            return badRequest(response.value)
+          }
+          default:  {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return response.isOk ? ok(response.value) : badRequest(new Error("Unreconized error"));
+      return ok(response.value);
     } catch (error: any) {
       return serverError(error);
     }

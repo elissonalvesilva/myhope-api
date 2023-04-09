@@ -13,32 +13,38 @@ export default class AuthMiddleware implements Middleware {
       const { accessToken } = request
       if (accessToken) {
         const currentSessionResponse = await this.sessionApplication.getSessionByToken(accessToken);
-        if(currentSessionResponse.isErr) {
-          const errCode = currentSessionResponse.error.name;
+        if(currentSessionResponse.isErr()) {
+          const errCode = currentSessionResponse.value.name;
           switch(errCode) {
             case "ERR_NOT_FOUND_SESSION": {
-              return forbidden(currentSessionResponse.error);
+              return forbidden(currentSessionResponse.value);
+            }
+            default: {
+              return forbidden(new Error("Unreconized error"));
             }
           }
         }
-        let currentSession = currentSessionResponse.isOk ? currentSessionResponse.value : null;
+        let currentSession = currentSessionResponse.value;
         const mapper = new SessionMapper();
         const currentSessionDomain = mapper.toDomain(currentSession);
 
         const isValidResponse = await this.sessionApplication.validateSession(currentSessionDomain);
-        if(isValidResponse.isErr) {
-          const errCode = isValidResponse.error.name;
+        if(isValidResponse.isErr()) {
+          const errCode = isValidResponse.value.name;
           switch(errCode) {
             case "ERR_INVALID_SESSION": {
-              return forbidden(isValidResponse.error);
+              return forbidden(isValidResponse.value);
             }
             case "ERR_NOT_FOUND_SESSION": {
-              return forbidden(isValidResponse.error);
+              return forbidden(isValidResponse.value);
+            }
+            default: {
+              return forbidden(new Error("Unreconized error"));
             }
           }
         }
 
-        const isValidSession = isValidResponse.isOk ? isValidResponse.value : false;
+        const isValidSession = isValidResponse.value;
         if(isValidSession) {
           return ok({ userId: currentSession?.userId });
         }

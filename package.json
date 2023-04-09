@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "clean": "rm -rf dist",
     "build": "npm run tsc -- -p .",
-    "start": "node dist/main/serve.js"
+    "start": "node dist/main/server.js"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +44,6 @@
     "uuid": "^9.0.0"
   },
   "_moduleAliases": {
-    "@": "."
+    "@": "dist"
   }
 }

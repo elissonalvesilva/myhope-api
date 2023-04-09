@@ -30,19 +30,19 @@ export default class UpdateQuizController implements BaseController {
       }, questions)
 
       const response = await this.quizApplication.updateQuiz(quiz);
-      if(response.isErr) {
-        const errCode = response.error.name;
+      if(response.isErr()) {
+        const errCode = response.value.name;
         switch(errCode) {
           case "ERR_QUIZ_NOT_FOUND": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
           case "ERR_CANT_UPDATE_QUIZ": {
-            return badRequest(response.error)
+            return badRequest(response.value)
           }
         }
       }
     
-      return response.isOk ? ok('updated') : badRequest(new Error("Unreconized error"));
+      return ok('updated');
     } catch (error: any) {
       return serverError(error);
     }

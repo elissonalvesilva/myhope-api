@@ -20,19 +20,22 @@ export default class UpdatePasswordController implements BaseController {
       } = request.body;
 
       const user = await this.userApplication.resetPassword(userId, password);
-      if(user.isErr) {
-        const errCode = user.error.name;
+      if(user.isErr()) {
+        const errCode = user.value.name;
         switch(errCode) {
           case "ERR_USER_NOT_FOUND": {
-            return notFound(user.error);
+            return notFound(user.value);
           }
           case "ERR_TO_UPDATE_PASSWORD": {
-            return badRequest(user.error);
+            return badRequest(user.value);
+          }
+          default: {
+            return badRequest(new Error("Unreconized error"));
           }
         }
       }
 
-      return user.isOk ? ok(user.value) : badRequest(new Error("Unreconized error"));
+      return ok(user.value);
     } catch (error: any) {
       return serverError(error);
     }
