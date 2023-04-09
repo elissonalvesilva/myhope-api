@@ -1,4 +1,4 @@
-import Encrypt from "@/app/protocols/encrypt";
+import Encrypt from "@/app/protocols/cryptography";
 import Hashing from "@/app/protocols/hashing";
 import UserApplication from "@/app/user/use-case";
 import UserFactory from "@/domain/user/factories";

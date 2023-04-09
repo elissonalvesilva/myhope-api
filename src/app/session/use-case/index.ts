@@ -5,15 +5,19 @@ import User from "@/domain/user/entity";
 import { Result } from "true-myth";
 import { SessionResponseDTO } from "@/app/session/dto";
 import SessionError from "@/app/session/error";
+import UserRepository from "@/domain/user/repository";
+import Cryptography from "@/app/protocols/cryptography";
 
 export default class SessionApplication {
   constructor(
     private readonly hashing: Hashing,
     private readonly sessionRepository: SessionRepository,
+    private readonly userRepository: UserRepository,
+    private readonly crypto: Cryptography,
   ){}
 
-  async createSession(user: User): Promise<Result<SessionResponseDTO, SessionError>> {
-    const session = await this.sessionRepository.createSession();
+  async createSession(userId: string): Promise<Result<SessionResponseDTO, SessionError>> {
+    const session = await this.sessionRepository.createSession(userId);
     if(!session) {
       return Result.err(new SessionError({
         name: "ERR_CREATE_SESSION",
@@ -99,5 +103,40 @@ export default class SessionApplication {
     };
 
     return Result.ok(sessionResponse);
+  }
+
+  async signIn(email: string, password: string): Promise<Result<SessionResponseDTO, SessionError>> {
+    const user = await this.userRepository.getUserByEmail(email);
+    if(!user) {
+      return Result.err(new SessionError({
+        name: "ERR_USER_OR_PASSWORD_IS_INVALID",
+        message: "user or password is invalid",
+      }))
+    }
+
+    const encrytedPassword = this.hashing.hash(password);
+    if(!this.hashing.compare(encrytedPassword, user.getPassword())) {
+      return Result.err(new SessionError({
+        name: "ERR_USER_OR_PASSWORD_IS_INVALID",
+        message: "user or password is invalid",
+      }))
+    }
+
+    const session = await this.sessionRepository.createSession(user.id);
+    if(!session) {
+      return Result.err(new SessionError({
+        name: "ERR_CREATE_SESSION",
+        message: "error to create session",
+      }));
+    }
+
+    const sessionResponse: SessionResponseDTO = {
+      id: session.id,
+      token: session.token,
+      expiredDate: session.expireDate,
+      userId: session.userId,
+    };
+
+    return Result.ok(sessionResponse)
   }
 }
