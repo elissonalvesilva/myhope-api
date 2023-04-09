@@ -6,6 +6,7 @@ import {
   makeGetResetCode,
   makeGetUserByEmail,
   makeGetUserById,
+  makeSubmitQuiz,
   makeUpdatePasswordController
 } from '@/main/factories/presenters/controllers/user';
 
@@ -15,4 +16,5 @@ export default (router: Router): void => {
   router.post('/user_by_email', auth, adaptRoute(makeGetUserByEmail()));
   router.post('/user', adaptRoute(makeCreateUserController()));
   router.put('/user', adaptRoute(makeUpdatePasswordController()));
+  router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
 }
