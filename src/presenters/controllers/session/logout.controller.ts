@@ -19,7 +19,7 @@ export default class LogoutController implements BaseController {
         const errCode = session.error.name;
         switch(errCode) {
           case "ERR_NOT_FOUND_SESSION": {
-            return notFound(session.error);
+            return badRequest(session.error);
           }
         }
       }
