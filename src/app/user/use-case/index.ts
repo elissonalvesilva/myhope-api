@@ -7,6 +7,7 @@ import User, { UserResponse } from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
 import { UserCreatedResponseDTO } from "@/app/user/dtos";
+import Cryptography from "@/app/protocols/cryptography";
 
 
 export default class UserApplication {
@@ -14,6 +15,7 @@ export default class UserApplication {
     private readonly userRepository: UserRepository,
     private readonly accountRepository: AccountRepository,
     private readonly hashingId: Hashing,
+    private readonly encrypt: Cryptography,
   ){}
 
   async getUserById(id: string): Promise<Result<UserResponse, UserError>> {
@@ -100,4 +102,24 @@ export default class UserApplication {
     return Result.ok(userResponse);
   }
 
+  async resetPassword(userId: string, newPassword: string): Promise<Result<boolean, UserError>> {
+    const user = await this.userRepository.getUserById(userId);
+    if(!user) {
+      return Result.err(new UserError({
+        name: "ERR_USER_NOT_FOUND",
+        message: "user not found"
+      }));
+    }
+
+    const encryptedPassword = this.encrypt.encrypt(newPassword);
+    const response = await this.userRepository.updatePassword(userId, encryptedPassword);
+    if(!response) {
+      return Result.err(new UserError({
+        name: "ERR_TO_UPDATE_PASSWORD",
+        message: "error to update password",
+      }));
+    }
+
+    return Result.ok(true);
+  }
 }

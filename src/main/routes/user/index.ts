@@ -5,7 +5,8 @@ import {
   makeCreateUserController,
   makeGetResetCode,
   makeGetUserByEmail,
-  makeGetUserById
+  makeGetUserById,
+  makeUpdatePasswordController
 } from '@/main/factories/presenters/controllers/user';
 
 export default (router: Router): void => {
@@ -13,4 +14,5 @@ export default (router: Router): void => {
   router.post('/reset_code', adaptRoute(makeGetResetCode()));
   router.post('/user_by_email', auth, adaptRoute(makeGetUserByEmail()));
   router.post('/user', adaptRoute(makeCreateUserController()));
+  router.put('/user', adaptRoute(makeUpdatePasswordController()));
 }
