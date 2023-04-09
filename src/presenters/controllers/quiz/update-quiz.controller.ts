@@ -4,7 +4,7 @@ import { badRequest, ok, serverError } from "@/presenters/helpers/http";
 import BaseController from "@/presenters/protocols/base-controller";
 import HttpResponse from "@/presenters/protocols/http";
 
-export default class GetQuizByIdController implements BaseController {
+export default class UpdateQuizController implements BaseController {
   constructor(
     private readonly quizApplication: QuizApplication,
   ){}

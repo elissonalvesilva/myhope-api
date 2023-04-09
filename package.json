@@ -39,7 +39,7 @@
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
     "mongoose": "^6.10.3",
-    "pino": "^8.8.0",
+    "pino": "^8.11.0",
     "true-myth": "^6.2.0",
     "uuid": "^9.0.0"
   },

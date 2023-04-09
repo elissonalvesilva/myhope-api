@@ -3,7 +3,7 @@ import { badRequest, notFound, ok, serverError } from "@/presenters/helpers/http
 import BaseController from "@/presenters/protocols/base-controller";
 import HttpResponse from "@/presenters/protocols/http";
 
-export default class GetResetCodeController implements BaseController {
+export default class GetUserByEmailController implements BaseController {
 
   constructor(
     private readonly userApplication: UserApplication,
