@@ -13,14 +13,14 @@ export default class UpdateQuizController implements BaseController {
     try {
       const {
         id,
-      } = request.query;
+      } = request;
 
       const {
         type,
         questions,
         isWithTime,
         timeInSeconds,
-      } = request.body;
+      } = request;
 
       const quiz = QuizFactory.create({
         id,

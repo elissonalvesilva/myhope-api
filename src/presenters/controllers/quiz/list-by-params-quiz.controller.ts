@@ -13,7 +13,7 @@ export default class GetQuizzesByParamsController implements BaseController {
 
       const {
         filter,
-      } = request.body
+      } = request
 
       const response = await this.quizApplication.listQuizByParams(filter);
       if(response.isErr()) {

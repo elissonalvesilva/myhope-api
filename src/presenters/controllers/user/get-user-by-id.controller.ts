@@ -13,7 +13,7 @@ export default class GetUserByIdController implements BaseController {
     try {
       const {
         id,
-      } = request.query;
+      } = request;
 
       const user = await this.userApplication.getUserById(id);
       if(user.isErr()) {

@@ -12,7 +12,7 @@ export default class DeleteQuizController implements BaseController {
     try {
       const {
         id,
-      } = request.query;
+      } = request;
 
       const response = await this.quizApplication.deleteQuiz(id);
       if(response.isErr()) {

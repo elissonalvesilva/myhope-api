@@ -13,7 +13,7 @@ export default class LoginController implements BaseController {
       const {
         email,
         password,
-      } = request.body;
+      } = request;
 
       const session = await this.sessionApplication.signIn(email, password);
       if(session.isErr()) {

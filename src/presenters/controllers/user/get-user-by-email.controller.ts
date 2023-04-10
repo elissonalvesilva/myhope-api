@@ -13,7 +13,7 @@ export default class GetUserByEmailController implements BaseController {
     try {
       const {
         email,
-      } = request.body;
+      } = request;
 
       const user = await this.userApplication.getUserByEmail(email);
       if(user.isErr()) {

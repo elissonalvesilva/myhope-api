@@ -17,7 +17,7 @@ export default class UpdatePasswordController implements BaseController {
 
       const {
         password,
-      } = request.body;
+      } = request;
 
       const user = await this.userApplication.resetPassword(userId, password);
       if(user.isErr()) {

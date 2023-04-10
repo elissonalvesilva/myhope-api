@@ -59,7 +59,7 @@ export default class UserApplication {
 
   async createUser(user: User): Promise<Result<UserCreatedResponseDTO, UserError>> {
     const alreadyExists = await this.userRepository.getUserByEmail(user.email);
-    if(!alreadyExists) {
+    if(alreadyExists) {
       return err(new UserError({
         name: "ERR_USER_ALREADY_EXISTS",
         message: "user with this email already exists",

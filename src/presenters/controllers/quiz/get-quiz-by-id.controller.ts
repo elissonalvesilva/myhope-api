@@ -12,7 +12,7 @@ export default class GetQuizByIdController implements BaseController {
     try {
       const {
         id,
-      } = request.query;
+      } = request;
 
       const response = await this.quizApplication.getQuizById(id);
       if(response.isErr()) {

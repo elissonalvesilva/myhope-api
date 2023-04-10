@@ -17,7 +17,7 @@ export default class SubmitQuizController implements BaseController {
 
       const {
         submitedQuiz,
-      } = request.body;
+      } = request;
 
       const quiz = {
         idQuiz: submitedQuiz?.id,

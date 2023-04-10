@@ -21,7 +21,7 @@ export default class CreateUserController implements BaseController {
         lastName,
         email,
         password,
-      } = request.body;
+      } = request;
 
       const encryptedPassword = this.encrypt.encrypt(password); 
       const id = this.hashing.hash(email);
@@ -48,6 +48,7 @@ export default class CreateUserController implements BaseController {
     
       return ok(response.value);
     } catch (error: any) {
+      console.error(error);
       return serverError(error);
     }
   }
