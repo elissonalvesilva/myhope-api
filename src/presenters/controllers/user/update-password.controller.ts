@@ -14,9 +14,10 @@ export default class UpdatePasswordController implements BaseController {
       const {
         email,
         password,
+        resetCode,
       } = request;
 
-      const user = await this.userApplication.resetPassword(email, password);
+      const user = await this.userApplication.resetPassword(email, password, parseInt(resetCode));
       if(user.isErr()) {
         const errCode = user.value.name;
         switch(errCode) {
@@ -24,6 +25,9 @@ export default class UpdatePasswordController implements BaseController {
             return notFound(user.value);
           }
           case "ERR_TO_UPDATE_PASSWORD": {
+            return badRequest(user.value);
+          }
+          case "ERR_INVALID_RESET_CODE": {
             return badRequest(user.value);
           }
           default: {

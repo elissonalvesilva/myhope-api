@@ -142,12 +142,20 @@ export default class UserApplication {
     return ok(userResponse);
   }
 
-  async resetPassword(email: string, newPassword: string): Promise<Result<boolean, UserError>> {
+  async resetPassword(email: string, newPassword: string, resetCode: number): Promise<Result<boolean, UserError>> {
     const user = await this.userRepository.getUserByEmail(email);
     if(!user) {
       return err(new UserError({
         name: "ERR_USER_NOT_FOUND",
         message: "user not found",
+        cause: { email }
+      }));
+    }
+
+    if(user.getResetCode() !== resetCode) {
+      return err(new UserError({
+        name: "ERR_INVALID_RESET_CODE",
+        message: "invalid user to reset",
         cause: { email }
       }));
     }
