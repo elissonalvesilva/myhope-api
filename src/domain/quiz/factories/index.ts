@@ -12,7 +12,7 @@ export default class QuizFactory {
           question.id,
           question.type,
           question.question,
-          question.answers.map((answer) => {
+          question.answers.map((answer: any) => {
             return new Answer(
               answer.id,
               answer.text,
@@ -20,7 +20,11 @@ export default class QuizFactory {
             )
           }),
           question.value,
-          question.correctAnswer,
+          new Answer(
+            question.correctAnswer.id,
+            question.correctAnswer.text,
+            question.correctAnswer.isCorrect,
+          ),
         )
       })
     );

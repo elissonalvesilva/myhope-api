@@ -48,7 +48,7 @@ export default class QuizMapper implements Mapper<Quiz> {
           correctAnswer: {
             text: q.correctAnswer.text,
             isCorrect: q.correctAnswer.isCorrect,
-          }
+          },
         }
       }),
     }

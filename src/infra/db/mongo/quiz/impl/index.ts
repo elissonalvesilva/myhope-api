@@ -31,9 +31,8 @@ export default class QuizImplementation implements QuizRepository {
   }
 
   async createQuiz(quiz: Quiz): Promise<boolean> {
-    const mapper = new QuizMapper();
-    const persistence = mapper.toPersistence(quiz);
-    const resp = await QuizCollection.create(persistence);
+    const resp = await QuizCollection.create(quiz.toJSON());
+
     if(!resp) {
       return false;
     }

@@ -15,7 +15,7 @@ const answerSchema = new Schema({
 const questionSchema = new Schema({
   type: String,
   question: String,
-  answers: { type: answerSchema },
+  answers: [{ type: answerSchema }],
   correctAnswer: { type: answerSchema },
   value: Number,
   selectedAnswer: { type: answerSchema },
@@ -40,6 +40,6 @@ quizSchema.set("toJSON", {
   virtuals: true
 });
 
-const AnswerCollection = mongoose.model<AnswerModel>('answer', answerSchema);
-const QuestionCollection = mongoose.model<QuestionModel>('question', questionSchema);
-export const QuizCollection = mongoose.model<QuizModel>('quiz', quizSchema);
+const AnswerCollection = mongoose.model<AnswerModel>('Answer', answerSchema);
+const QuestionCollection = mongoose.model<QuestionModel>('Question', questionSchema);
+export const QuizCollection = mongoose.model<QuizModel>('Quiz', quizSchema);

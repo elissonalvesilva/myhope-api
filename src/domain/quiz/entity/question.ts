@@ -5,7 +5,7 @@ export default class Question {
   private _type: string;
   private _question: string;
   private _answers: Answer[];
-  private _correctAnswer?: Answer;
+  private _correctAnswer: Answer;
   private _value: number;
   private _selectedAnswer?: Answer;
 
@@ -15,7 +15,7 @@ export default class Question {
     question:  string,
     answers: Answer[],
     value: number,
-    correctAnswer?: Answer,
+    correctAnswer: Answer,
   ) {
     this._id = id;
     this._type = type;
@@ -57,8 +57,8 @@ export default class Question {
     this._answers = val
   }
   
-  getCorrectAnswer() {
-    return this._correctAnswer ? this._correctAnswer : undefined;
+  get correctAnswer(): Answer {
+    return this._correctAnswer;
   }
   
   set correctAnswer(val: Answer) {
@@ -91,9 +91,9 @@ export default class Question {
       type: this._type,
       question: this._question,
       answers: this._answers.map((answer) => answer.toJSON()),
-      correctAnswer: this.getCorrectAnswer()?.toJSON(),
+      correctAnswer: this._correctAnswer,
       value: this._value,
-      selectedAnswer: this.getSelectedAnswer()?.toJSON(),
+      selectedAnswer: this.getSelectedAnswer(),
     }
   }
 }
