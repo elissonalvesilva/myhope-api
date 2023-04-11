@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { Middleware } from '@/presenters/protocols';
 
+declare global{
+  namespace Express {
+    interface Request {
+        userId: string
+    }
+  }
+}
+
 export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {

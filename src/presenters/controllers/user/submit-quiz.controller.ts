@@ -13,9 +13,6 @@ export default class SubmitQuizController implements BaseController {
     try {
       const {
         userId,
-      } = request;
-
-      const {
         submitedQuiz,
       } = request;
 
@@ -39,6 +36,10 @@ export default class SubmitQuizController implements BaseController {
           case "ERR_SUBMITED_QUIZ": {
             return badRequest(code.value);
           }
+          case "ERR_USER_NOT_FOUND": {
+            return badRequest(code.value);
+          }
+
           default: {
             return badRequest(new Error("Unreconized error"));
           }
@@ -47,6 +48,7 @@ export default class SubmitQuizController implements BaseController {
 
       return ok(code.value);
     } catch (error: any) {
+      console.log(error);
       return serverError(error);
     }
   }

@@ -200,7 +200,7 @@ export default class UserApplication {
       const selectedAnswerQuestion = submitQuizAnswersMap.get(question.id);
       if(selectedAnswerQuestion) {
         if(selectedAnswerQuestion === question.correctAnswer.id) {
-          acc++;
+          acc+=question.value;
         }
 
         const answer = question.answers.find((answer) => answer === selectedAnswerQuestion);
@@ -214,8 +214,9 @@ export default class UserApplication {
 
     const mapper = new UserMapper();
     const userMappedDomain = mapper.toDomain(user);
-    
+
     userMappedDomain.addFinishedQuiz(quiz);
+
     await this.userRepository.updateUser(userMappedDomain)
 
     return ok({

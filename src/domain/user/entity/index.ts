@@ -136,7 +136,7 @@ export default class User {
   }
 
   addFinishedQuiz(quiz: Quiz) {
-    if(this._finishedQuizzes) {
+    if(this._finishedQuizzes && this.finishedQuizzes.length > 0) {
       this._finishedQuizzes.push(quiz);
     }else {
       this._finishedQuizzes = [quiz];
