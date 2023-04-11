@@ -31,7 +31,27 @@ export default class QuizMapper implements Mapper<Quiz> {
   }
   
   toPersistence(t: Quiz) {
-    throw new Error("Method not implemented.");
+    return {
+      id: t.id,
+      type: t.type,
+      questions: t.questions.map((q) => { 
+        return {
+          type: q.type,
+          question: q.question,
+          answers: q.answers.map((ans) => {
+            return {
+              text: ans.text,
+              isCorrect: ans.isCorrect,
+            }
+          }),
+          value: q.value,
+          correctAnswer: {
+            text: q.correctAnswer.text,
+            isCorrect: q.correctAnswer.isCorrect,
+          }
+        }
+      }),
+    }
   }
   
 }

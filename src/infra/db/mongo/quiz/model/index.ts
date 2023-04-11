@@ -10,22 +10,22 @@ interface QuizModel extends QuizDTO, Document{}
 const answerSchema = new Schema({
   text: String,
   isCorrect: Boolean,
-});
+}, { _id: false });
 
 const questionSchema = new Schema({
   type: String,
   question: String,
-  answers: answerSchema,
-  correctAnswer: answerSchema,
+  answers: { type: answerSchema },
+  correctAnswer: { type: answerSchema },
   value: Number,
-  selectedAnswer: answerSchema,
+  selectedAnswer: { type: answerSchema },
 });
 
 const quizSchema = new Schema({
   type: String,
   isWithTime: Boolean,
   timeInSeconds: Number,
-  questions: [questionSchema]
+  questions: [{ type: questionSchema }]
 });
 
 answerSchema.set("toJSON", {

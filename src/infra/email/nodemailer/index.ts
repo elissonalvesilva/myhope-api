@@ -1,18 +1,19 @@
+import * as path from 'path';
+import hbs from 'handlebars';
+
 import * as nodemailer from "nodemailer";
-import EmailService from "@/app/protocols/email";
+import * as fs from 'fs';
+import EmailService from '@/app/protocols/email';
 
 export default class EmailServiceImpl implements EmailService {
   constructor(private readonly mailServiceConfig: any){}
   
-  sendResetEmail(email: string, code: number): Promise<boolean | null> {
-    let mailOptions = {
-      from: this.mailServiceConfig.MAIL_FROM,
-      to: email,
-      subject: 'Reset Password',
-      html: code.toString(),
-  };
+  async sendResetEmail(email: string, code: number): Promise<boolean | null> {
+  
+    const template = hbs.compile(fs.readFileSync(path.join(__dirname, '../../template/email/email.hbs'), 'utf-8'));
+  
 
-  const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host: this.mailServiceConfig.MAIL_HOST,
       port: this.mailServiceConfig.MAIL_PORT,
       secure: true,
@@ -21,14 +22,21 @@ export default class EmailServiceImpl implements EmailService {
           pass: this.mailServiceConfig.MAIL_PASSWORD,
       },
       tls: { rejectUnauthorized: false }
-  });
+    });
 
+    let mailOptions = {
+      from: this.mailServiceConfig.MAIL_FROM,
+      to: email,
+      subject: 'Reset Password',
+      html: template({
+        reset: code.toString(),
+      })
+    };
 
-  console.log(mailOptions);
-
-  return new Promise((resolve) => {
-    transporter.sendMail(mailOptions, function (error, info) {
+    return new Promise((resolve) => {
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
+          console.log(error);
           resolve(false)
         } else {
           resolve(true);

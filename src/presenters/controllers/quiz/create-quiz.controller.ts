@@ -42,6 +42,7 @@ export default class CreateQuizController implements BaseController {
     
       return ok(response.value)
     } catch (error: any) {
+      console.log(error);
       return serverError(error);
     }
   }

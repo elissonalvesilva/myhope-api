@@ -37,6 +37,7 @@ export default class ForgotPasswordController implements BaseController {
       return ok(resetCode.value);
       
     } catch (error: any) {
+      console.log(error);
       return serverError(error);
     }
   }
