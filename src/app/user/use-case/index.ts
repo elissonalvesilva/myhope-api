@@ -190,7 +190,7 @@ export default class UserApplication {
     }
 
     const lengthQuestions = quiz.questions.length;
-    const submitQuizAnswersMap = new Map();
+    const submitQuizAnswersMap: Map<string, number> = new Map();
     
     quizSubmited.selectedAnswers.map((quiz) => {
       return submitQuizAnswersMap.set(quiz.idQuestion, quiz.idSelectedAnswer);
@@ -199,15 +199,11 @@ export default class UserApplication {
     const countCorrectAnswers = quiz.questions.reduce((acc: number, question: Question) => {
       const selectedAnswerQuestion = submitQuizAnswersMap.get(question.id);
       if(selectedAnswerQuestion) {
-        if(selectedAnswerQuestion === question.correctAnswer.id) {
+        if(selectedAnswerQuestion === question.correctAnswer.idAnswer) {
           acc+=question.value;
         }
-
-        const answer = question.answers.find((answer) => answer === selectedAnswerQuestion);
-        if(answer) {
-          question.addSelectedAnswer(answer)
-        }
       }
+
       return acc;
     }, 0);
 

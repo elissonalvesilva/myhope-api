@@ -8,7 +8,7 @@ const sessionSchema = new Schema({
   userId: String,
   token: String,
   expireDate: Date,
-});
+}, { timestamps: true });
 
 sessionSchema.set("toJSON", {
   virtuals: true

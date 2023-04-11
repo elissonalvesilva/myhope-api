@@ -8,6 +8,7 @@ interface QuizModel extends QuizDTO, Document{}
 
 
 const answerSchema = new Schema({
+  idAnswer: Number,
   text: String,
   isCorrect: Boolean,
 });
@@ -26,7 +27,7 @@ const quizSchema = new Schema({
   isWithTime: Boolean,
   timeInSeconds: Number,
   questions: [{ type: questionSchema }]
-});
+}, { timestamps: true });
 
 answerSchema.set("toJSON", {
   virtuals: true

@@ -7,7 +7,7 @@ const accountSchema = new Schema({
   accountNumber: String,
   balance: Number,
   statements: Array,
-});
+}, { timestamps: true });
 
 accountSchema.set("toJSON", {
   virtuals: true,

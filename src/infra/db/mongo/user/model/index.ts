@@ -41,7 +41,7 @@ const userSchema = new Schema({
     type: Number,
     required: false,
   },
-});
+}, { timestamps: true });
 
 userSchema.set('toJSON', {
   virtuals: true

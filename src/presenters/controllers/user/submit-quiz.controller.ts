@@ -21,7 +21,7 @@ export default class SubmitQuizController implements BaseController {
         selectedAnswers: submitedQuiz?.selectedAnswers.map((answer: any) => {
           return {
             idQuestion: answer.idQuestion,
-            idSelectedAnswer: answer.idSelectedAnswer,
+            idSelectedAnswer: parseInt(answer.idSelectedAnswer),
           }
         }),
       }

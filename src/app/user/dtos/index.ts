@@ -4,7 +4,7 @@ import { Status } from "@/domain/user/entity";
 
 interface Answers {
   idQuestion: string;
-  idSelectedAnswer: string;
+  idSelectedAnswer: number;
 }
 
 export interface UserForgotPassword {

@@ -61,7 +61,7 @@ export default class Quiz {
 
   resultQuiz() {
     return this._questions.reduce((sum: number, question: Question) => {
-      if(question.getSelectedAnswer()?.id === question.correctAnswer.id) {
+      if(question.getSelectedAnswer()?.idAnswer === question.correctAnswer.idAnswer) {
         sum = sum + question.value;
       }
       return sum

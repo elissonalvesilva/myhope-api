@@ -15,15 +15,16 @@ export default class QuizMapper implements Mapper<Quiz> {
           question.question,
           question.answers.map((answer: any) => {
             return new Answer(
-              answer.id,
+              answer.idAnswer,
               answer.text,
+              answer.isCorrect,
             )
           }),
-          raw.value,
+          question.value,
           new Answer(
-            raw.id,
-            raw.text,
-            raw.isCorrect,
+            question.correctAnswer.idAnswer,
+            question.correctAnswer.text,
+            question.correctAnswer.isCorrect,
           ),
         )
       }),
@@ -40,12 +41,14 @@ export default class QuizMapper implements Mapper<Quiz> {
           question: q.question,
           answers: q.answers.map((ans) => {
             return {
+              idAnswer: ans.idAnswer,
               text: ans.text,
               isCorrect: ans.isCorrect,
             }
           }),
           value: q.value,
           correctAnswer: {
+            idAnswer: q.correctAnswer.idAnswer,
             text: q.correctAnswer.text,
             isCorrect: q.correctAnswer.isCorrect,
           },
