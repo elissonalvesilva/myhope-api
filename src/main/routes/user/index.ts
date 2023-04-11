@@ -13,7 +13,7 @@ import {
 
 export default (router: Router): void => {
   router.get('/user/:id', auth, adaptRoute(makeGetUserById()));
-  router.post('/reset_code', adaptRoute(makeGetResetCode()));
+  router.post('/user/reset_code', adaptRoute(makeGetResetCode()));
   router.post('/user_by_email', adaptRoute(makeGetUserByEmail()));
   router.post('/user', adaptRoute(makeCreateUserController()));
   router.put('/user/update_password', adaptRoute(makeUpdatePasswordController()));

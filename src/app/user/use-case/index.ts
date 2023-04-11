@@ -78,8 +78,8 @@ export default class UserApplication {
     return ok(user);
   }
 
-  async getResetCode(id: string): Promise<Result<number, UserError>> {
-    const code = await this.userRepository.getResetCodeByUserId(id);
+  async getResetCode(resetCode: number, email: string): Promise<Result<number, UserError>> {
+    const code = await this.userRepository.getResetCodeByUserEmail(resetCode, email);
     if(!code) {
       return err(new UserError({
         name: "ERR_RESET_CODE_USER_NOT_FOUND",

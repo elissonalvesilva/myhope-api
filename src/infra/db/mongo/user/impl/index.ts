@@ -43,14 +43,17 @@ export default class UserImplementation implements UserRepository {
     }
   }
 
-  async getResetCodeByUserId(id: string): Promise<number | null>{
+  async getResetCodeByUserEmail(resetCode: number, email: string): Promise<number | null>{
     try {
-      const response = await UserModel.findById(id);
+      const response = await UserModel.findOne({
+        resetCode,
+        email,
+      });
       
       if(!response) {
         return null;
       }
-      return 1;
+      return response.resetCode;
     } catch (error) {
       throw error;
     }

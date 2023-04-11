@@ -11,7 +11,12 @@ export default class GetResetCodeController implements BaseController {
 
   async handle(request: any): Promise<HttpResponse> {
     try {
-      const code = await this.userApplication.getResetCode(request.userId);
+      const {
+        email,
+        resetCode,
+      } = request
+
+      const code = await this.userApplication.getResetCode(parseInt(resetCode), email);
       if(code.isErr()) {
         const errCode = code.value.name;
         switch(errCode) {
