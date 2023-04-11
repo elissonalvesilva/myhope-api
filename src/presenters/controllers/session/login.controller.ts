@@ -34,6 +34,7 @@ export default class LoginController implements BaseController {
       return ok(session.value);
 
     } catch (error: any) {
+      console.log(error);
       return serverError(error);
     }
   }

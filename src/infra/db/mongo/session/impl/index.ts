@@ -10,7 +10,7 @@ export default class SessionImplementation implements SessionRepository {
     private readonly expireDateInMinutes: number,
   ) {}
 
-  async createSession(userId: string): Promise<Session> {
+  async createSession(userId: string): Promise<Session | null> {
     try {
       let currentDate = new Date();
       currentDate.setMinutes(currentDate.getMinutes() + this.expireDateInMinutes);
@@ -19,19 +19,27 @@ export default class SessionImplementation implements SessionRepository {
         userId,
         expireDate,
       })
-      const session = SessionModel.create({
+      const session = await SessionModel.create({
         userId,
         token,
         expireDate,
       });
 
-      const mapper = new SessionMapper();
+      if(!session) {
+        return null;
+      }
 
-      const responseSession = mapper.toDomain(session)
+      const mapper = new SessionMapper();
+      const response = {
+        id: session.id,
+        token,
+        expireDate,
+      }
+      const responseSession = mapper.toDomain(response)
 
       return responseSession;
     } catch (error) {
-        throw error;
+      throw error;
     }
   }
 
@@ -44,7 +52,7 @@ export default class SessionImplementation implements SessionRepository {
         userId,
         expireDate,
       })
-      const session = SessionModel.findOneAndUpdate({ id: idSession, userId }, {
+      const session = await SessionModel.updateOne({ id: idSession, userId }, {
         $set: { token }
       })
 
@@ -60,7 +68,7 @@ export default class SessionImplementation implements SessionRepository {
   }
   async getActiveSessionByUser(userId: string): Promise<Session | null> {
     try {
-      const session = SessionModel.findOne({ userId });
+      const session = await SessionModel.findOne({ userId });
       if(!session) {
         return null;
       }
@@ -85,7 +93,7 @@ export default class SessionImplementation implements SessionRepository {
   
   async getByToken(token: string): Promise<Session | null> {
     try {
-      const session = SessionModel.findOne({ token });
+      const session = await SessionModel.findOne({ token });
       if(!session) {
         return null;
       }
