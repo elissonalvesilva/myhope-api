@@ -29,8 +29,8 @@ export default class UserImplementation implements UserRepository {
     try {
       const response = await UserModel.findOne({
         email,
-      }).populate('accounts');
-      console.log(response);
+      }).populate('account');
+
       if(!response) {
         return null;
       }
