@@ -2,12 +2,12 @@
 export interface SessionResponseDTO {
   id: string;
   token: string;
-  expiredDate: number;
+  expireDate: Date;
   userId: string;
 }
 
 export default interface SessionDTO {
   token: string;
-  expiredDate: Date;
+  expireDate: Date;
   userId: string;
 }

@@ -2,14 +2,15 @@ import User from "@/domain/user/entity";
 import UserMapper from "@/domain/user/mapper";
 import UserRepository from "@/domain/user/repository";
 import UserModel from "@/infra/db/mongo/user/model";
+import AccountModel from "@/infra/db/mongo/account/model";
 
 export default class UserImplementation implements UserRepository {
   constructor(){}
 
   async getUserById(id: string): Promise<User | null>{
     try {
-      const response = await UserModel.findById(id);
-      
+      const response = await UserModel.findOne({ _id: id }).populate('account');
+
       if(!response) {
         return null;
       }
@@ -17,8 +18,10 @@ export default class UserImplementation implements UserRepository {
       const user = mapper.toDomain(
         response,
       )
+
       return user;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -27,8 +30,8 @@ export default class UserImplementation implements UserRepository {
     try {
       const response = await UserModel.findOne({
         email,
-      });
-      
+      }).populate('accounts');
+      console.log(response);
       if(!response) {
         return null;
       }
@@ -49,7 +52,7 @@ export default class UserImplementation implements UserRepository {
       if(!response) {
         return null;
       }
-      return response.resetCode;
+      return 1;
     } catch (error) {
       throw error;
     }

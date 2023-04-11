@@ -25,18 +25,17 @@ const userSchema = new Schema({
     required: false,
   },
   account: {
-    type: mongoose.Types.ObjectId,
-    required: false,
-    ref: 'accounts'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
   },
   status: {
     type: String,
     required: true,
   },
   finishedQuizzes: [{
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: false,
-    ref: 'quizzes'
+    ref: 'quiz'
   }],
   resetCode: {
     type: Number,
@@ -48,4 +47,10 @@ userSchema.set('toJSON', {
   virtuals: true
 });
 
-export default mongoose.model<UserModel>('user', userSchema);
+userSchema.virtual('accounts', {
+  ref: 'Account',
+  localField: '_id',
+  foreignField: 'account'
+});
+
+export default mongoose.model<UserModel>('User', userSchema);

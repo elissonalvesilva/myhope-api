@@ -4,7 +4,7 @@ import Quiz from "@/domain/quiz/entity";
 
 export type Status = 'ACTIVE' | 'INACTIVE' | 'RESET';
 
-export type UserResponse = Omit<User, 'password'>;
+export type UserResponse = Omit<User, '_password'>;
 
 export default class User {
   private _id: string;

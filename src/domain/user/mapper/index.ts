@@ -1,4 +1,5 @@
 import Mapper from "@/domain/@/shared/domain/mapper";
+import Account from "@/domain/account/entity";
 import User from "@/domain/user/entity";
 
 export default class UserMapper implements Mapper<User> {
@@ -13,8 +14,13 @@ export default class UserMapper implements Mapper<User> {
       raw.status
     )
 
-    if(raw.finishedQuizzes){
+    if('finishedQuizzes' in raw){
       user.finishedQuizzes = raw.finishedQuizzes;
+    }
+
+    if(raw.account) {
+      const account = new Account(raw.id, raw.accountNumber, raw.balance, raw.id);
+      user.addAccount(account);
     }
 
     return user;

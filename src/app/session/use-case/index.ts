@@ -27,7 +27,7 @@ export default class SessionApplication {
     const sessionResponse: SessionResponseDTO = {
       id: session.id,
       token: session.token,
-      expiredDate: session.expireDate,
+      expireDate: session.expireDate,
       userId: session.userId,
     };
 
@@ -55,7 +55,7 @@ export default class SessionApplication {
     const sessionResponse: SessionResponseDTO = {
       id: session.id,
       token: session.token,
-      expiredDate: session.expireDate,
+      expireDate: session.expireDate,
       userId: session.userId,
     };
 
@@ -67,15 +67,9 @@ export default class SessionApplication {
   }
 
   async validateSession(currentSession: Session): Promise<Result<boolean, SessionError>> {
-    const session = await this.sessionRepository.getActiveSessionByUser(currentSession.userId);
-    if(!session) {
-      return err(new SessionError({
-        name: "ERR_NOT_FOUND_SESSION",
-        message: "not found session for this user",
-      }))
-    }
-      
-    if(session.expireDate > currentSession.expireDate) {
+    const currentDate = new Date();
+
+    if(currentDate <= currentSession.expireDate) {
       return ok(true);
     }
 
@@ -97,7 +91,7 @@ export default class SessionApplication {
     const sessionResponse: SessionResponseDTO = {
       id: session.id,
       token: session.token,
-      expiredDate: session.expireDate,
+      expireDate: session.expireDate,
       userId: session.userId,
     };
 
@@ -132,7 +126,7 @@ export default class SessionApplication {
     const sessionResponse: SessionResponseDTO = {
       id: session.id,
       token: session.token,
-      expiredDate: session.expireDate,
+      expireDate: session.expireDate,
       userId: session.userId,
     };
 

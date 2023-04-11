@@ -1,10 +1,10 @@
 export default class Session {
   private _id: string;
   private _token: string;
-  private _expireDate: number;
+  private _expireDate: Date;
   private _userId: string;
 
-  constructor(id: string, token: string, expireDate: number, userId: string) {
+  constructor(id: string, token: string, expireDate: Date, userId: string) {
     this._id = id;
     this._token = token;
     this._expireDate = expireDate;
@@ -31,7 +31,7 @@ export default class Session {
     return this._expireDate
   }
   
-  set expireDate(val: number) {
+  set expireDate(val: Date) {
     this._expireDate = val
   }
 

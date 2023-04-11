@@ -7,10 +7,11 @@ export default class AccountMapper implements Mapper<Account> {
     const account = new Account(
       raw.id,
       raw.accountNumber,
-      raw.balance
-    )
+      raw.balance,
+      raw.userId,
+    );
 
-    if(raw?.statements.length > 0) {
+    if('statements' in raw && raw?.statements?.length > 0) {
       account.statements = raw.statements.map((statement: any) => {
         return new Statement(
           statement.id,
@@ -29,6 +30,7 @@ export default class AccountMapper implements Mapper<Account> {
       balance: t.balance,
       accountNumber: t.accountNumber,
       statements: t.statements.map((statement) => statement.id),
+      userId: t.userId,
     }
   }
 

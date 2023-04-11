@@ -73,9 +73,11 @@ export default class UserApplication {
       accountId,
       accountNumber,
       0,
+      user.id,
     );
 
     const account = await this.accountRepository.createAccount(buildedAccount, user.id);
+
     if(!account) {
       return err(new UserError({
         name: "ERR_CREATE_ACCOUNT",

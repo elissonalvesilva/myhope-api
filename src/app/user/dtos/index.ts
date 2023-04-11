@@ -38,7 +38,11 @@ export default interface UserDTO {
   email: string;
   password: string;
   image?: string;
-  account?: Account;
+  account: {
+    id: string,
+    accountNumber: string,
+    balance: number
+  };
   status: Status;
   finishedQuizzes?: Quiz[];
   resetCode: number;

@@ -40,7 +40,11 @@ export default class AccountImplementation implements AccountRepository {
         return null;
       }
 
-      return account
+      const mapper = new AccountMapper();
+      response.userId = userId;
+      const accountResponse = mapper.toDomain(response);
+
+      return accountResponse
     } catch (error) {
       throw error;
     }

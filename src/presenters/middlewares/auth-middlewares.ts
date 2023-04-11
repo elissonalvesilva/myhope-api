@@ -10,9 +10,14 @@ export default class AuthMiddleware implements Middleware {
   
   async handle(request: any): Promise<HttpResponse> {
     try {
-      const { accessToken } = request
-      if (accessToken) {
-        const currentSessionResponse = await this.sessionApplication.getSessionByToken(accessToken);
+      const { authorization } = request
+      if (authorization) {
+        if(!authorization.startsWith('Bearer ')) {
+          return forbidden(new Error('Invalid token'));
+        }
+        const token = authorization.split(' ')[1];
+        const currentSessionResponse = await this.sessionApplication.getSessionByToken(token);
+
         if(currentSessionResponse.isErr()) {
           const errCode = currentSessionResponse.value.name;
           switch(errCode) {

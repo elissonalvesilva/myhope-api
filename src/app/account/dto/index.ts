@@ -4,4 +4,5 @@ export default interface AccountDTO {
   accountNumber: string;
   balance: number;
   statements?: Statement[];
+  userId: string;
 }
