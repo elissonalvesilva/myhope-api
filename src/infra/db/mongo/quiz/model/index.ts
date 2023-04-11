@@ -10,7 +10,7 @@ interface QuizModel extends QuizDTO, Document{}
 const answerSchema = new Schema({
   text: String,
   isCorrect: Boolean,
-}, { _id: false });
+});
 
 const questionSchema = new Schema({
   type: String,
