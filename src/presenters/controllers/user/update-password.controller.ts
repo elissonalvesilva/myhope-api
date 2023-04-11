@@ -12,14 +12,11 @@ export default class UpdatePasswordController implements BaseController {
   async handle(request: any): Promise<HttpResponse> {
     try {
       const {
-        userId,
-      } = request;
-
-      const {
+        email,
         password,
       } = request;
 
-      const user = await this.userApplication.resetPassword(userId, password);
+      const user = await this.userApplication.resetPassword(email, password);
       if(user.isErr()) {
         const errCode = user.value.name;
         switch(errCode) {

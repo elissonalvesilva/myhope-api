@@ -89,6 +89,7 @@ export default class UserImplementation implements UserRepository {
   async updatePassword(id: string, password: string): Promise<boolean>{
     try {
       const response = await UserModel.updateOne({ id: id }, {
+        status: 'ACTIVE',
         password,
       });
       

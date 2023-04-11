@@ -16,7 +16,7 @@ export default (router: Router): void => {
   router.post('/reset_code', adaptRoute(makeGetResetCode()));
   router.post('/user_by_email', adaptRoute(makeGetUserByEmail()));
   router.post('/user', adaptRoute(makeCreateUserController()));
-  router.put('/user', adaptRoute(makeUpdatePasswordController()));
+  router.put('/user/update_password', adaptRoute(makeUpdatePasswordController()));
   router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
   router.post('/user/forgot_password', adaptRoute(makeForgotPasswordController()))
 }

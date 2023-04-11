@@ -142,17 +142,18 @@ export default class UserApplication {
     return ok(userResponse);
   }
 
-  async resetPassword(userId: string, newPassword: string): Promise<Result<boolean, UserError>> {
-    const user = await this.userRepository.getUserById(userId);
+  async resetPassword(email: string, newPassword: string): Promise<Result<boolean, UserError>> {
+    const user = await this.userRepository.getUserByEmail(email);
     if(!user) {
       return err(new UserError({
         name: "ERR_USER_NOT_FOUND",
-        message: "user not found"
+        message: "user not found",
+        cause: { email }
       }));
     }
 
     const encryptedPassword = this.encrypt.encrypt(newPassword);
-    const response = await this.userRepository.updatePassword(userId, encryptedPassword);
+    const response = await this.userRepository.updatePassword(user.id, encryptedPassword);
     if(!response) {
       return err(new UserError({
         name: "ERR_TO_UPDATE_PASSWORD",
