@@ -3,15 +3,15 @@ import AccountFactory from "@/domain/account/factory";
 import { AccountRepository } from "@/domain/account/repository";
 import UserRepository from "@/domain/user/repository";
 import Hashing from "@/app/protocols/hashing";
-import User, { UserResponse } from "@/domain/user/entity";
+import User from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
 import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO } from "@/app/user/dtos";
 import Cryptography from "@/app/protocols/cryptography";
 import QuizRepository from "@/domain/quiz/repository";
 import Question from "@/domain/quiz/entity/question";
-import Answer from "@/domain/quiz/entity/answer";
 import UserMapper from "@/domain/user/mapper";
+import EmailService from "@/app/protocols/email";
 
 
 export default class UserApplication {
@@ -21,6 +21,7 @@ export default class UserApplication {
     private readonly hashingId: Hashing,
     private readonly encrypt: Cryptography,
     private readonly quizRespository: QuizRepository,
+    private readonly emailService: EmailService,
   ){}
 
   async getUserById(id: string): Promise<Result<UserResponseDTO, UserError>> {
@@ -212,5 +213,42 @@ export default class UserApplication {
       totalCorrectResponse: countCorrectAnswers,
       countQuestions: lengthQuestions,
     })
+  }
+
+  async forgotPassword(email: string): Promise<Result<boolean, UserError>> {
+    const response = await this.userRepository.getUserByEmail(email);
+    if(!response) {
+      return err(new UserError({
+        name: "ERR_USER_NOT_FOUND",
+        message: "user not found",
+        cause: { email }
+      }));
+    }
+
+    const resetCode = parseInt((Math.floor(Math.random() * 100000) + 100000).toString());
+    const mapper = new UserMapper();
+    const userDomain = mapper.toDomain(response);
+    userDomain.setResetCode(resetCode);
+    userDomain.updateStatusToReset();
+
+    const user = await this.userRepository.updateUser(userDomain);
+    if(!user) {
+      return err(new UserError({
+        name: "ERR_TO_SET_RESET_CODE",
+        message: "error to set reset code",
+        cause: { email }
+      }));
+    }
+
+    const mailService = await this.emailService.sendResetEmail(email, resetCode);
+    if(!mailService) {
+      return err(new UserError({
+        name: "ERR_TO_SEND_EMAIL_WITH_RESET_CODE",
+        message: "error to send reset code",
+        cause: { email }
+      }));
+    }
+
+    return ok(true);
   }
 }

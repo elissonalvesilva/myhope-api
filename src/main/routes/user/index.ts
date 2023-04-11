@@ -3,11 +3,12 @@ import { adaptRoute } from '@/main/adapter/express-router-adapter';
 import { auth } from '@/main/middlewares/auth';
 import {
   makeCreateUserController,
+  makeForgotPasswordController,
   makeGetResetCode,
   makeGetUserByEmail,
   makeGetUserById,
   makeSubmitQuiz,
-  makeUpdatePasswordController
+  makeUpdatePasswordController,
 } from '@/main/factories/presenters/controllers/user';
 
 export default (router: Router): void => {
@@ -17,4 +18,5 @@ export default (router: Router): void => {
   router.post('/user', adaptRoute(makeCreateUserController()));
   router.put('/user', adaptRoute(makeUpdatePasswordController()));
   router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
+  router.post('/user/forgot_password', adaptRoute(makeForgotPasswordController()))
 }

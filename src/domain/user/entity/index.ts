@@ -16,6 +16,7 @@ export default class User {
   private _account?: Account;
   private _status: Status;
   private _finishedQuizzes?: Quiz[];
+  private _resetCode?: number;
 
   constructor(
     id: string,
@@ -98,6 +99,14 @@ export default class User {
     this._finishedQuizzes = val
   }
 
+  getResetCode() {
+    return this._resetCode ? this._resetCode : null;
+  }
+
+  setResetCode(val: number) {
+    this._resetCode = val;
+  }
+
   validate() {
     if(this._email.length === 0 ) {
       throw new Error('Email must be pass');
@@ -120,6 +129,10 @@ export default class User {
 
   updateStatus(status: Status): void {
     this._status = status
+  }
+
+  updateStatusToReset(): void {
+    this._status = 'RESET';
   }
 
   addFinishedQuiz(quiz: Quiz) {
@@ -165,6 +178,7 @@ export default class User {
       account: this.getAccount(),
       status: this._status,
       finishedQuizzes: this.finishedQuizzes,
+      resetCode: this.getResetCode(),
     }
   }
 

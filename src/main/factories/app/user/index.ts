@@ -4,6 +4,7 @@ import { makeUserImplementation } from "@/main/factories/infra/db/mongodb/user";
 import { makeAccountImpl } from "@/main/factories/infra/db/mongodb/account";
 import { makeCrypto } from "@/main/factories/infra/crypto";
 import { makeQuizImpl } from "@/main/factories/infra/db/mongodb/quiz";
+import { makeNodeMailer } from "@/main/factories/infra/nodemailer";
 
 export const makeUserApp = (): UserApplication => {
   const userRepositoryImpl = makeUserImplementation();
@@ -11,5 +12,6 @@ export const makeUserApp = (): UserApplication => {
   const jwtImpl = makeJWT();
   const encrypt = makeCrypto()
   const quizImpl = makeQuizImpl();
-  return new UserApplication(userRepositoryImpl, accountRepositoryImpl, jwtImpl, encrypt, quizImpl);
+  const emailService = makeNodeMailer();
+  return new UserApplication(userRepositoryImpl, accountRepositoryImpl, jwtImpl, encrypt, quizImpl, emailService);
 };

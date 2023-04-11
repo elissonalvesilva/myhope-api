@@ -4,3 +4,4 @@ export * from "./get-user-by-email.controller";
 export * from "./get-user-by-id.controller";
 export * from "./update-password.controller";
 export * from "./submit-quiz.controller";
+export * from "./forgot-password.controller";

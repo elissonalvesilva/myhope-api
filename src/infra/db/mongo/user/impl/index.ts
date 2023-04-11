@@ -20,7 +20,6 @@ export default class UserImplementation implements UserRepository {
 
       return user;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -74,7 +73,9 @@ export default class UserImplementation implements UserRepository {
 
   async updateUser(user: User): Promise<boolean>{
     try {
-      const response = await UserModel.updateOne({ id: user.id}, user);
+      const mapper = new UserMapper();
+      const persistence = mapper.toPersistence(user);
+      const response = await UserModel.updateOne({ id: user.id}, persistence);
       
       if(!response) {
         return false;
