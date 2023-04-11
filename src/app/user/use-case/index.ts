@@ -50,7 +50,7 @@ export default class UserApplication {
     return ok(user);
   }
 
-  async getUserByEmail(email: string): Promise<Result<UserResponse, UserError>> {
+  async getUserByEmail(email: string): Promise<Result<UserResponseDTO, UserError>> {
     const response = await this.userRepository.getUserByEmail(email);
     if(!response) {
       return err(new UserError({
@@ -59,7 +59,22 @@ export default class UserApplication {
         cause: { email }
       }));
     }
-    return ok(response);
+
+    const user: UserResponseDTO = {
+      id: response.id,
+      name: response.name,
+      lastName: response.lastName,
+      account: {
+        id: response.getAccount()?.id,
+        accountNumber: response.getAccount()?.accountNumber,
+        balance: response.getAccount()?.balance
+      },
+      email: response.email,
+      status: response.status,
+      image: response.image,
+      finishedQuizzes: response.finishedQuizzes,
+    }
+    return ok(user);
   }
 
   async getResetCode(id: string): Promise<Result<number, UserError>> {
