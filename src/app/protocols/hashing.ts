@@ -1,6 +1,7 @@
 export interface SessionTokenProps {
   userId: string;
   expireDate: Date;
+  expireIn?: number;
 }
 
 export default interface Hashing {

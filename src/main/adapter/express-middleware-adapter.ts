@@ -5,6 +5,7 @@ export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {
       ...(req.headers || {}),
+      ...(req.query || {}),
     };
     const httpResponse = await middleware.handle(request);
     if (httpResponse.statusCode === 200) {

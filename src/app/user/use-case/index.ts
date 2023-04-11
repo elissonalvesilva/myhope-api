@@ -6,7 +6,7 @@ import Hashing from "@/app/protocols/hashing";
 import User from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
-import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO } from "@/app/user/dtos";
+import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO, UserForgotPassword } from "@/app/user/dtos";
 import Cryptography from "@/app/protocols/cryptography";
 import QuizRepository from "@/domain/quiz/repository";
 import Question from "@/domain/quiz/entity/question";
@@ -224,7 +224,7 @@ export default class UserApplication {
     })
   }
 
-  async forgotPassword(email: string): Promise<Result<boolean, UserError>> {
+  async forgotPassword(email: string): Promise<Result<UserForgotPassword, UserError>> {
     const response = await this.userRepository.getUserByEmail(email);
     if(!response) {
       return err(new UserError({
@@ -255,6 +255,33 @@ export default class UserApplication {
         name: "ERR_TO_SEND_EMAIL_WITH_RESET_CODE",
         message: "error to send reset code",
         cause: { email }
+      }));
+    }
+
+    const token = this.hashingId.sessionToken({
+      userId: response.id,
+      expireDate: new Date(),
+      expireIn: 30
+    })
+
+    if(!token) {
+      return err(new UserError({
+        name: "ERR_GENERATE_TOKEN",
+        message: "error to generate token",
+      }));
+    }
+
+    return ok({
+      token,
+    });
+  }
+
+  async validateResetToken(token: string): Promise<Result<boolean, UserError>> {
+    const isValid = this.hashingId.verifySessionToken(token);
+    if(!isValid) {
+      return err(new UserError({
+        name: "ERR_INVALID_RESET_TOKEN",
+        message: "invalid reset token or token is expired",
       }));
     }
 

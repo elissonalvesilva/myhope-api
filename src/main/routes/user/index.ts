@@ -10,13 +10,15 @@ import {
   makeSubmitQuiz,
   makeUpdatePasswordController,
 } from '@/main/factories/presenters/controllers/user';
+import { resetMiddleware } from '@/main/middlewares/reset-token';
 
 export default (router: Router): void => {
   router.get('/user/:id', auth, adaptRoute(makeGetUserById()));
-  router.post('/user/reset_code', adaptRoute(makeGetResetCode()));
   router.post('/user_by_email', adaptRoute(makeGetUserByEmail()));
   router.post('/user', adaptRoute(makeCreateUserController()));
-  router.put('/user/update_password', adaptRoute(makeUpdatePasswordController()));
   router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
+  
+  router.post('/user/reset_code', resetMiddleware, adaptRoute(makeGetResetCode()));
+  router.put('/user/update_password', resetMiddleware, adaptRoute(makeUpdatePasswordController()));
   router.post('/user/forgot_password', adaptRoute(makeForgotPasswordController()))
 }

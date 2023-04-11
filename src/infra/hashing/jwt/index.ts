@@ -30,10 +30,11 @@ export default class JWTImplemenation implements Hashing {
   }
 
   sessionToken(parameters: SessionTokenProps): string | null {
+    const expireIn = parameters.expireIn ? 60 * parameters.expireIn : 60 * this.expireTimeInMinutes;
     const token = jwt.sign({
       userId: parameters.userId,
       expireDate: parameters.expireDate,
-    }, this.secretKey, { expiresIn: 60 * this.expireTimeInMinutes });
+    }, this.secretKey, { expiresIn: expireIn });
 
     if(!token) {
       return null;

@@ -1,4 +1,3 @@
-import Account from "@/domain/account/entity";
 import Quiz from "@/domain/quiz/entity";
 import { Status } from "@/domain/user/entity";
 
@@ -6,6 +5,10 @@ import { Status } from "@/domain/user/entity";
 interface Answers {
   idQuestion: string;
   idSelectedAnswer: string;
+}
+
+export interface UserForgotPassword {
+  token: string;
 }
 
 export interface UserSubmitQuiz {
