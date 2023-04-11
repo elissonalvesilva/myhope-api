@@ -66,28 +66,29 @@ export default class UserApplication {
         cause: `${user.email} already in database`,
       }));
     }
-  
-    const userCreated = await this.userRepository.createUser(user);
-    if(!userCreated) {
-      return err(new UserError({
-        name: "ERR_USER_NOT_CREATED",
-        message: "user cant be created",
-      }));
-    }
 
     const accountNumber = AccountService.accountNumber();
-    const accountId = this.hashingId.hash();
+    const accountId = this.hashingId.hashId();
     const buildedAccount = AccountFactory.create(
       accountId,
       accountNumber,
       0,
     );
 
-    const account = await this.accountRepository.createAccount(buildedAccount, userCreated.id);
+    const account = await this.accountRepository.createAccount(buildedAccount, user.id);
     if(!account) {
       return err(new UserError({
         name: "ERR_CREATE_ACCOUNT",
         message: "error to create account"
+      }));
+    }
+
+    user.addAccount(account);
+    const userCreated = await this.userRepository.createUser(user);
+    if(!userCreated) {
+      return err(new UserError({
+        name: "ERR_USER_NOT_CREATED",
+        message: "user cant be created",
       }));
     }
 

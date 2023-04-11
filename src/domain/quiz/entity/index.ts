@@ -7,6 +7,7 @@ export default class Quiz {
   private _questions: Question[];
   private _isWithTime: boolean = false;
   private _timeInSeconds?: number;
+  private defaultTimeInSeconds: number = 600;
 
   constructor(
     id: string,
@@ -67,5 +68,14 @@ export default class Quiz {
     }, 0);
   }
 
+  toJSON() {
+    return {
+      id: this._id,
+      type: this._type,
+      questions: this._questions.map((question) => question.toJSON()),
+      isWithTime: this._isWithTime,
+      timeInSeconds: this._timeInSeconds || this.defaultTimeInSeconds,
+    }
+  }
   
 }

@@ -33,13 +33,14 @@ export default class AccountImplementation implements AccountRepository {
       throw error;
     }
   }
-  async createAccount(account: Account, userId: string): Promise<boolean>{
+  async createAccount(account: Account, userId: string): Promise<Account | null>{
     try {
-      const response = await AccountModel.create(account)
+      const response = await AccountModel.create(account.toJSON())
       if(!response.isModified) {
-        return false;
+        return null;
       }
-      return true
+
+      return account
     } catch (error) {
       throw error;
     }
@@ -64,7 +65,7 @@ export default class AccountImplementation implements AccountRepository {
       const response = await AccountModel.updateOne({
         id: account.id,
       }, {
-        $push: { statements: statement },
+        $push: { statements: statement.toJSON() },
       });
 
       if(response.modifiedCount <= 0) {

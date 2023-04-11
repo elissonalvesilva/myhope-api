@@ -4,7 +4,7 @@ import Statement from "@/domain/account/entity/statement";
 export interface AccountRepository {
   getAccountById(id: string): Promise<Account|null>
   getAccountByUserId(id: string): Promise<Account|null>
-  createAccount(account: Account, userId: string): Promise<boolean>
+  createAccount(account: Account, userId: string): Promise<Account | null>
   updateBalance(account: Account): Promise<boolean>
   addStatements(account: Account, statement: Statement): Promise<boolean>
   listStatementsByAccountId(id: string): Promise<Account|null>

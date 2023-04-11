@@ -22,6 +22,16 @@ export default class UserMapper implements Mapper<User> {
 
 
   toPersistence (t: User): any {
-    return true;
+    return {
+      id: t.id,
+      name: t.name,
+      lastName: t.lastName,
+      email: t.email,
+      password: t.getPassword(),
+      image: t.image,
+      status: t.status,
+      account: t.getAccount()?.id,
+      finishedQuizzes: t.finishedQuizzes.map((f) => f.id),
+    }
   }
 }

@@ -42,5 +42,14 @@ export default class Session {
   set userId(val: string) {
     this._userId = val;
   }
+
+  toJSON() {
+    return {
+      id: this._id,
+      token: this._token,
+      expireDate: this._expireDate,
+      userId: this._userId,
+    }
+  }
   
 }

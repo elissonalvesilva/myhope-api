@@ -60,5 +60,12 @@ export default class Account {
     }
   }
 
-
+  toJSON() {
+    return {
+      id: this._id,
+      accountNumber: this._accountNumber,
+      balance: this._balance,
+      statements: this._statements?.map((statement) => statement.toJSON()),
+    }
+  }
 }

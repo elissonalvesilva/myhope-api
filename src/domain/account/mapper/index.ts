@@ -24,7 +24,12 @@ export default class AccountMapper implements Mapper<Account> {
     return account;
   }
   toPersistence(t: Account) {
-    throw new Error("Method not implemented.");
+    return {
+      id: t.id,
+      balance: t.balance,
+      accountNumber: t.accountNumber,
+      statements: t.statements.map((statement) => statement.id),
+    }
   }
 
 }

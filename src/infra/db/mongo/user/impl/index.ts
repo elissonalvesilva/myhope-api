@@ -57,7 +57,9 @@ export default class UserImplementation implements UserRepository {
 
   async createUser(user: User): Promise<User | null>{
     try {
-      const response = await UserModel.create(user);
+      const mapper = new UserMapper();
+      const persistence = mapper.toPersistence(user);
+      const response = await UserModel.create(persistence);
       
       if(!response) {
         return null;

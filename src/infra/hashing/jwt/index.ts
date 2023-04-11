@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from 'uuid';
+import mongoose from "mongoose";
 import crypto from 'crypto';
 import Hashing, { SessionTokenProps } from "@/app/protocols/hashing";
 
@@ -18,6 +19,14 @@ export default class JWTImplemenation implements Hashing {
     }
 
     return hash.update(uuidv4()).digest('hex');
+  }
+
+  hashId(parameter?: string | undefined): string {
+    if (parameter !== "" && parameter !== undefined) {
+      return new mongoose.Types.ObjectId(parameter).toString();
+    }
+
+    return new mongoose.Types.ObjectId().toString();
   }
 
   sessionToken(parameters: SessionTokenProps): string | null {

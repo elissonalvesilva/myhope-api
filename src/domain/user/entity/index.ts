@@ -154,4 +154,18 @@ export default class User {
     this._password = val;
   }
 
+  toJSON() {
+    return {
+      id: this._id,
+      name: this._name,
+      lastName: this._lastName,
+      email: this._email,
+      password: this.getPassword(),
+      image: this._image,
+      account: this.getAccount(),
+      status: this._status,
+      finishedQuizzes: this.finishedQuizzes,
+    }
+  }
+
 }

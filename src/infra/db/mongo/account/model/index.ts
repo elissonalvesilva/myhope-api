@@ -7,10 +7,6 @@ const accountSchema = new Schema({
   accountNumber: String,
   balance: Number,
   statements: Array,
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-  },
 });
 
 accountSchema.set("toJSON", {

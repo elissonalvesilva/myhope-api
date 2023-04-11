@@ -8,4 +8,5 @@ export default interface Hashing {
   sessionToken(parameters: SessionTokenProps): string | null;
   compare(value1: string, value2: string): boolean;
   verifySessionToken(token: string): boolean;
+  hashId(parameter?: string): string;
 }

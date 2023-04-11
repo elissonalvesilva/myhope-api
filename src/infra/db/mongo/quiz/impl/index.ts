@@ -31,7 +31,7 @@ export default class QuizImplementation implements QuizRepository {
   }
 
   async createQuiz(quiz: Quiz): Promise<boolean> {
-    const resp = await QuizCollection.create(quiz);
+    const resp = await QuizCollection.create(quiz.toJSON());
     if(!resp) {
       return false;
     }

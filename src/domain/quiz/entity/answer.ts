@@ -32,4 +32,12 @@ export default class Answer {
   set isCorrect(val: boolean) {
     this._isCorrect = val;
   }
+
+  toJSON() {
+    return {
+      id: this._id,
+      text: this._text,
+      isCorrect: this._isCorrect,
+    }
+  }
 }

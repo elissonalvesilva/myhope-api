@@ -13,7 +13,7 @@ export class MongoHelper {
       mongoose
         .connect(encodeURI(uri), options)
         .then(() => {
-          return console.log(`Successfully connected to ${uri}`);
+          return console.log('Successfully connected to Database');
         })
         .catch((error: Error) => {
           console.log('Error connecting to database: ', error);

@@ -84,4 +84,16 @@ export default class Question {
   addSelectedAnswer(answer: Answer) {
     this._selectedAnswer = answer
   }
+
+  toJSON() {
+    return {
+      id: this._id,
+      type: this._type,
+      question: this._question,
+      answers: this._answers.map((answer) => answer.toJSON()),
+      correctAnswer: this.getCorrectAnswer()?.toJSON(),
+      value: this._value,
+      selectedAnswer: this.getSelectedAnswer()?.toJSON(),
+    }
+  }
 }

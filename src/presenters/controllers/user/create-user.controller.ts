@@ -24,7 +24,7 @@ export default class CreateUserController implements BaseController {
       } = request;
 
       const encryptedPassword = this.encrypt.encrypt(password); 
-      const id = this.hashing.hash(email);
+      const id = this.hashing.hashId();
       const user = UserFactory.create({ id, name, lastName, email, password: encryptedPassword });
 
       const response = await this.userApplication.createUser(user)

@@ -47,4 +47,13 @@ export default class Statement {
   set accountId(id: string) {
     this._accountId = id;
   }
+
+  toJSON() {
+    return {
+      id: this._id,
+      date: this._date,
+      content: this._content,
+      accountId: this._accountId,
+    }
+  }
 }
