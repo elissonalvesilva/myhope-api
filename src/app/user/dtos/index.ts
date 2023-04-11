@@ -31,6 +31,21 @@ export interface UserCreatedResponseDTO {
   status: Status;
 }
 
+export interface UserResponseDTO {
+  id: string;
+  name: string;
+  lastName: string;
+  email: string;
+  image?: string;
+  account?: {
+    id?: string,
+    accountNumber?: string,
+    balance?: number
+  };
+  status: Status;
+  finishedQuizzes?: Quiz[];
+}
+
 
 export default interface UserDTO {
   name: string;

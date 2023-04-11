@@ -19,7 +19,7 @@ export default class UserMapper implements Mapper<User> {
     }
 
     if(raw.account) {
-      const account = new Account(raw.id, raw.accountNumber, raw.balance, raw.id);
+      const account = new Account(raw.account.id, raw.account.accountNumber, raw.account.balance, raw.account.id);
       user.addAccount(account);
     }
 

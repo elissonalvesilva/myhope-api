@@ -2,7 +2,6 @@ import User from "@/domain/user/entity";
 import UserMapper from "@/domain/user/mapper";
 import UserRepository from "@/domain/user/repository";
 import UserModel from "@/infra/db/mongo/user/model";
-import AccountModel from "@/infra/db/mongo/account/model";
 
 export default class UserImplementation implements UserRepository {
   constructor(){}

@@ -6,7 +6,7 @@ import Hashing from "@/app/protocols/hashing";
 import User, { UserResponse } from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
-import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz } from "@/app/user/dtos";
+import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO } from "@/app/user/dtos";
 import Cryptography from "@/app/protocols/cryptography";
 import QuizRepository from "@/domain/quiz/repository";
 import Question from "@/domain/quiz/entity/question";
@@ -23,7 +23,7 @@ export default class UserApplication {
     private readonly quizRespository: QuizRepository,
   ){}
 
-  async getUserById(id: string): Promise<Result<UserResponse, UserError>> {
+  async getUserById(id: string): Promise<Result<UserResponseDTO, UserError>> {
     const response = await this.userRepository.getUserById(id);
     if(!response) {
       return err(new UserError({
@@ -31,7 +31,23 @@ export default class UserApplication {
         message: "user not found"
       }));
     }
-    return ok(response);
+
+    const user: UserResponseDTO = {
+      id: response.id,
+      name: response.name,
+      lastName: response.lastName,
+      account: {
+        id: response.getAccount()?.id,
+        accountNumber: response.getAccount()?.accountNumber,
+        balance: response.getAccount()?.balance
+      },
+      email: response.email,
+      status: response.status,
+      image: response.image,
+      finishedQuizzes: response.finishedQuizzes,
+    }
+
+    return ok(user);
   }
 
   async getUserByEmail(email: string): Promise<Result<UserResponse, UserError>> {
