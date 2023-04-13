@@ -8,7 +8,7 @@ export default class ResetPasswordMiddleware implements Middleware {
   
   async handle(req: any): Promise<HttpResponse> {
     const { token } = req;
-    console.log(token);
+
     if(token) {
       const isValidToken = await this.userApplication.validateResetToken(token);
       if(isValidToken.isErr()) {
