@@ -21,7 +21,7 @@ export default (router: Router): void => {
   router.post('/user', schemaValidator('user', 'create'), adaptRoute(makeCreateUserController()));
   router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
   
-  router.post('/user/reset_code', resetMiddleware, adaptRoute(makeGetResetCode()));
-  router.put('/user/update_password', resetMiddleware, adaptRoute(makeUpdatePasswordController()));
-  router.post('/user/forgot_password', adaptRoute(makeForgotPasswordController()))
+  router.post('/user/reset_code', [schemaValidator('user', 'reset_code'), resetMiddleware], adaptRoute(makeGetResetCode()));
+  router.put('/user/update_password', [schemaValidator('user', 'update_pass'), resetMiddleware], adaptRoute(makeUpdatePasswordController()));
+  router.post('/user/forgot_password', schemaValidator('user', 'forgot_pass'), adaptRoute(makeForgotPasswordController()))
 }
