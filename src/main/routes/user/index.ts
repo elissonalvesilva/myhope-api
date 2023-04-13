@@ -11,11 +11,14 @@ import {
   makeUpdatePasswordController,
 } from '@/main/factories/presenters/controllers/user';
 import { resetMiddleware } from '@/main/middlewares/reset-token';
+import { schemaValidator } from '@/main/middlewares';
+
+
 
 export default (router: Router): void => {
   router.get('/user/:id', auth, adaptRoute(makeGetUserById()));
   router.post('/user_by_email', auth, adaptRoute(makeGetUserByEmail()));
-  router.post('/user', adaptRoute(makeCreateUserController()));
+  router.post('/user', schemaValidator('user', 'create'), adaptRoute(makeCreateUserController()));
   router.post('/user/quiz', auth, adaptRoute(makeSubmitQuiz()))
   
   router.post('/user/reset_code', resetMiddleware, adaptRoute(makeGetResetCode()));
