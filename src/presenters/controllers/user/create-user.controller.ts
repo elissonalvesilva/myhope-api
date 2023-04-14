@@ -2,7 +2,7 @@ import Encrypt from "@/app/protocols/cryptography";
 import Hashing from "@/app/protocols/hashing";
 import UserApplication from "@/app/user/use-case";
 import UserFactory from "@/domain/user/factories";
-import { badRequest, ok, serverError } from "@/presenters/helpers/http";
+import { badRequest, conflitRequest, ok, serverError } from "@/presenters/helpers/http";
 import BaseController from "@/presenters/protocols/base-controller";
 import HttpResponse from "@/presenters/protocols/http";
 
@@ -38,7 +38,7 @@ export default class CreateUserController implements BaseController {
             return badRequest(response.value)
           }
           case "ERR_USER_ALREADY_EXISTS": {
-            return badRequest(response.value);
+            return conflitRequest(response.value);
           }
           default: {
             return badRequest(new Error("Unreconized error"));
