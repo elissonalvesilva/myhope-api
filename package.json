@@ -52,6 +52,7 @@
     "nodemailer-express-handlebars": "^6.1.0",
     "pino": "^8.11.0",
     "pino-http": "^8.3.3",
+    "pino-pretty": "^10.0.0",
     "uninstall": "^0.0.0",
     "uuid": "^9.0.0"
   },

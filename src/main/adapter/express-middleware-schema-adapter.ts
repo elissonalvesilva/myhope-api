@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Middleware } from '@/presenters/protocols';
+import pino from 'pino';
+
+const logger = pino({});
 
 declare global{
   namespace Express {
@@ -21,6 +24,10 @@ export const adaptMiddlewareSchema = (middleware: Middleware) => {
       Object.assign(req, httpResponse.body);
       next();
     } else {
+      logger.error({
+        status: httpResponse.statusCode,
+        error: httpResponse.body
+      });
       res.status(httpResponse.statusCode).json({
         error: httpResponse.body.message,
       });
