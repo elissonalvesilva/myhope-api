@@ -5,7 +5,11 @@ interface SessionModel extends SessionDTO, Document{}
 
 
 const sessionSchema = new Schema({
-  userId: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    ref: 'User'
+  },
   token: String,
   expireDate: Date,
 }, { timestamps: true });
