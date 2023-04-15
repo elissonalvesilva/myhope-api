@@ -127,7 +127,7 @@ export default class SessionApplication {
       id: session.id,
       token: session.token,
       expireDate: session.expireDate,
-      userId: session.userId,
+      userId: user.id,
     };
 
     return ok(sessionResponse)
