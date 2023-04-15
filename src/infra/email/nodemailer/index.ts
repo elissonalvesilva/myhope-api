@@ -46,7 +46,7 @@ export default class EmailServiceImpl implements EmailService {
   }
 
   async sendWelcome(email: string, name: any): Promise<boolean | null> {
-    const template = hbs.compile(fs.readFileSync(path.join(__dirname, '../../template/email/walcome.hbs'), 'utf-8'));
+    const template = hbs.compile(fs.readFileSync(path.join(__dirname, '../../template/email/welcome.hbs'), 'utf-8'));
   
 
     const transporter = nodemailer.createTransport({
