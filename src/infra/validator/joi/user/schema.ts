@@ -35,3 +35,10 @@ export const UserSubmitQuiz = Joi.object({
     )
   })
 })
+
+export const UpdateUserSchema = Joi.object({
+  name: Joi.string().min(3).optional(),
+  email: Joi.string().email().optional(),
+  lastName: Joi.string().min(3).optional(),
+  image: Joi.string().min(30).optional(),
+})

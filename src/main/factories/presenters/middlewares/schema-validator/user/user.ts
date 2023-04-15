@@ -1,4 +1,4 @@
-import { ResetCodeSchema, UpdatePasswordSchema, UserSchemaCreate, ForgotPassSchema } from "@/infra/validator/joi/user/schema";
+import { ResetCodeSchema, UpdatePasswordSchema, UserSchemaCreate, ForgotPassSchema, UpdateUserSchema } from "@/infra/validator/joi/user/schema";
 import UserSchemaValidator from "@/infra/validator/joi/user/validator";
 
 export const makeUserSchemaValidator = (type: string): UserSchemaValidator => {
@@ -8,6 +8,7 @@ export const makeUserSchemaValidator = (type: string): UserSchemaValidator => {
     'reset_code': ResetCodeSchema,
     'update_pass': UpdatePasswordSchema,
     'forgot_pass': ForgotPassSchema,
+    'update': UpdateUserSchema,
   }[type] || UserSchemaCreate;
 
   return new UserSchemaValidator(schema);

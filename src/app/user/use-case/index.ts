@@ -6,7 +6,7 @@ import Hashing from "@/app/protocols/hashing";
 import User from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
-import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO, UserForgotPassword } from "@/app/user/dtos";
+import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO, UserForgotPassword, UpdateUserProps } from "@/app/user/dtos";
 import Cryptography from "@/app/protocols/cryptography";
 import QuizRepository from "@/domain/quiz/repository";
 import Question from "@/domain/quiz/entity/question";
@@ -279,6 +279,18 @@ export default class UserApplication {
       return err(new UserError({
         name: "ERR_INVALID_RESET_TOKEN",
         message: "invalid reset token or token is expired",
+      }));
+    }
+
+    return ok(true);
+  }
+
+  async updateUser(params: UpdateUserProps, userId: string): Promise<Result<boolean, UserError>> {
+    const isUpdated = await this.userRepository.updatePartialUser(params, userId);
+    if(!isUpdated) {
+      return err(new UserError({
+        name: "ERR_UPDATE_USER",
+        message: "Erro to update user",
       }));
     }
 

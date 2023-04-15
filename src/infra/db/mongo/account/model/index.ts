@@ -3,10 +3,20 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface AccountModel extends AccountDTO, Document{}
 
+const statementSchema = new Schema({
+  date: Date,
+  content: String,
+  accountId: {
+    ref: 'Account',
+    type: mongoose.Types.ObjectId,
+  },
+})
+
+
 const accountSchema = new Schema({
   accountNumber: String,
   balance: Number,
-  statements: Array,
+  statements: [statementSchema],
 }, { timestamps: true });
 
 accountSchema.set("toJSON", {

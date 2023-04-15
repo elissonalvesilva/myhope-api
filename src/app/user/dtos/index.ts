@@ -65,3 +65,11 @@ export default interface UserDTO {
   finishedQuizzes?: Quiz[];
   resetCode: number;
 }
+
+export interface UpdateUserProps {
+  name?: string;
+  lastName?: string;
+  email?: string;
+  image?: string;
+  firstAccess?: boolean;
+}

@@ -41,6 +41,10 @@ const userSchema = new Schema({
     type: Number,
     required: false,
   },
+  firstAccess: {
+    type: Boolean,
+    required: false,
+  }
 }, { timestamps: true });
 
 userSchema.set('toJSON', {

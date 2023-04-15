@@ -29,7 +29,7 @@ export default class AccountApplication {
     }
       
     const statement = new Statement(
-      this.hashing.hash(),
+      this.hashing.hashId(),
       new Date(),
       value.toString(),
       account.id,
