@@ -27,6 +27,10 @@ export default class UserMapper implements Mapper<User> {
       user.setResetCode(raw.resetCode);
     }
 
+    if(raw.firstAccess) {
+      user.firstAccess = raw.firstAccess;
+    }
+
     return user;
   }
 
@@ -43,6 +47,7 @@ export default class UserMapper implements Mapper<User> {
       account: t.getAccount()?.id,
       finishedQuizzes: t.finishedQuizzes.map((f) => f.id),
       resetCode: t.getResetCode(),
+      firstAccess: t.firstAccess
     }
   }
 }

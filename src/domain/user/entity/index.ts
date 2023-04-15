@@ -17,6 +17,7 @@ export default class User {
   private _status: Status;
   private _finishedQuizzes?: Quiz[];
   private _resetCode?: number;
+  private _firstAccess?: boolean;
 
   constructor(
     id: string,
@@ -97,6 +98,14 @@ export default class User {
   
   set finishedQuizzes(val: Quiz[]) {
     this._finishedQuizzes = val
+  }
+
+  get firstAccess() {
+    return this._firstAccess ? this._firstAccess : false;
+  }
+
+  set firstAccess(val: boolean) {
+    this._firstAccess = val;
   }
 
   getResetCode() {

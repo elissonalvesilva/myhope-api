@@ -32,6 +32,7 @@ export interface UserCreatedResponseDTO {
     balance: number
   };
   status: Status;
+  firstAccess?: boolean;
 }
 
 export interface UserResponseDTO {
@@ -47,6 +48,7 @@ export interface UserResponseDTO {
   };
   status: Status;
   finishedQuizzes?: Quiz[];
+  firstAccess?: boolean;
 }
 
 
@@ -64,6 +66,7 @@ export default interface UserDTO {
   status: Status;
   finishedQuizzes?: Quiz[];
   resetCode: number;
+  firstAccess?: boolean;
 }
 
 export interface UpdateUserProps {

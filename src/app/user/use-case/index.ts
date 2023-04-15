@@ -46,6 +46,7 @@ export default class UserApplication {
       status: response.status,
       image: response.image,
       finishedQuizzes: response.finishedQuizzes,
+      firstAccess: response.firstAccess,
     }
 
     return ok(user);
