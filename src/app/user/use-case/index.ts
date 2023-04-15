@@ -75,6 +75,7 @@ export default class UserApplication {
       status: response.status,
       image: response.image,
       finishedQuizzes: response.finishedQuizzes,
+      firstAccess: response.firstAccess,
     }
     return ok(user);
   }
@@ -91,6 +92,7 @@ export default class UserApplication {
   }
 
   async createUser(user: User): Promise<Result<UserCreatedResponseDTO, UserError>> {
+    user.firstAccess = true;
     const alreadyExists = await this.userRepository.getUserByEmail(user.email);
     if(alreadyExists) {
       return err(new UserError({
