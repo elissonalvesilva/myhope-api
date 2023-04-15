@@ -129,6 +129,8 @@ export default class UserApplication {
       }));
     }
 
+    await this.emailService.sendWelcome(user.email, user.name);
+
     const userResponse: UserCreatedResponseDTO = {
       name: user.name,
       lastName: user.lastName,
