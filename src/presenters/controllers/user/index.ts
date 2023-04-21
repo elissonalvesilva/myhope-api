@@ -6,3 +6,4 @@ export * from "./update-password.controller";
 export * from "./submit-quiz.controller";
 export * from "./forgot-password.controller";
 export * from "./update-user.controller";
+export * from "./ranking.controller";

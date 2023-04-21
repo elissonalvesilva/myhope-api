@@ -13,10 +13,13 @@ import {
 } from '@/main/factories/presenters/controllers/user';
 import { resetMiddleware } from '@/main/middlewares/reset-token';
 import { schemaValidator } from '@/main/middlewares';
+import { makeRankingController } from '@/main/factories/presenters/controllers/user/ranking';
 
 
 
 export default (router: Router): void => {
+  router.post('/user/ranking', auth, adaptRoute(makeRankingController()));
+  
   router.get('/user/:id', auth, adaptRoute(makeGetUserById()));
   router.post('/user_by_email', auth, adaptRoute(makeGetUserByEmail()));
   router.post('/user', schemaValidator('user', 'create'), adaptRoute(makeCreateUserController()));

@@ -76,3 +76,20 @@ export interface UpdateUserProps {
   image?: string;
   firstAccess?: boolean;
 }
+
+export interface RankingProps {
+  limit: Number;
+  page: Number;
+}
+
+interface UserRanking {
+  id: string;
+  name: string;
+  balance: number;
+}
+
+export interface RankingResponse {
+  users: UserRanking[];
+  page: number;
+  total: number;
+}

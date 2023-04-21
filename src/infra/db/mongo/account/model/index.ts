@@ -14,6 +14,10 @@ const statementSchema = new Schema({
 
 
 const accountSchema = new Schema({
+  user: {
+    ref: 'User',
+    type: mongoose.Types.ObjectId,
+  },
   accountNumber: String,
   balance: Number,
   statements: [statementSchema],

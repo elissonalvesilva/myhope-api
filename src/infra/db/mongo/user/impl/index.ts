@@ -1,7 +1,8 @@
-import User from "@/domain/user/entity";
+import User, { UserResponse } from "@/domain/user/entity";
 import UserMapper from "@/domain/user/mapper";
 import UserRepository from "@/domain/user/repository";
 import UserModel from "@/infra/db/mongo/user/model";
+import { PipelineStage } from "mongoose";
 
 export default class UserImplementation implements UserRepository {
   constructor(){}
@@ -112,20 +113,83 @@ export default class UserImplementation implements UserRepository {
   }
 
   async updatePartialUser(params: any, userId: string): Promise<boolean | null> {
-      try {
-        const buildedParams = this.buildUpdateParams(params);
-        const user = await UserModel.findByIdAndUpdate(userId, buildedParams);
-        if(user) {
-          if(user.isModified()) {
-            return true;
-          }
-          return false;
+    try {
+      const buildedParams = this.buildUpdateParams(params);
+      const user = await UserModel.findByIdAndUpdate(userId, buildedParams);
+      if(user) {
+        if(user.isModified()) {
+          return true;
         }
-
-        return false
-      } catch (error) {
-        throw error;
+        return false;
       }
+
+      return false
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private buildRankingPipeline(params: { [key: string]: any }): PipelineStage[] {
+    return [
+      {
+        '$lookup': {
+          'from': 'accounts', 
+          'localField': 'account', 
+          'foreignField': '_id', 
+          'as': 'account'
+        }
+      }, 
+      {
+        '$unwind': '$account'
+      },
+      {
+        '$sort': {
+          'balance': 1
+        }
+      }, {
+        '$facet': {
+          'metadata': [
+            {
+              '$count': 'total'
+            }, {
+              '$addFields': {
+                'page': params.page,
+              }
+            }
+          ], 
+          'data': [
+            {
+              '$skip': params.page === 1 ? 0 : params.page * params.limit
+            }, {
+              '$limit': params.limit || 10
+            }
+          ]
+        }
+      }
+    ]
+  }
+
+  async listUsersRanking(params: any): Promise<any | null> {
+    try {
+      const response = await UserModel.aggregate(this.buildRankingPipeline(params));
+      if(response.length === 0) {
+        return null;
+      }
+
+      const mapper = new UserMapper();
+      const { metadata, data } = response[0];
+      const users = data.map((user: any) => {
+        return mapper.toDomain(user)
+      });
+
+      return {
+        users,
+        total: metadata[0].total,
+        page: metadata[0].page,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
 }

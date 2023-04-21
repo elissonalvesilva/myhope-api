@@ -6,7 +6,7 @@ import Hashing from "@/app/protocols/hashing";
 import User from "@/domain/user/entity";
 import AccountService from "@/domain/account/services/account-number";
 import UserError from "@/app/user/error";
-import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO, UserForgotPassword, UpdateUserProps } from "@/app/user/dtos";
+import { SubmitQuizResponse, UserCreatedResponseDTO, UserSubmitQuiz, UserResponseDTO, UserForgotPassword, UpdateUserProps, RankingProps, RankingResponse } from "@/app/user/dtos";
 import Cryptography from "@/app/protocols/cryptography";
 import QuizRepository from "@/domain/quiz/repository";
 import Question from "@/domain/quiz/entity/question";
@@ -300,5 +300,34 @@ export default class UserApplication {
     }
 
     return ok(true);
+  }
+
+  async ranking(params: RankingProps): Promise<Result<RankingResponse, UserError>>{
+    const responseUserRanking =  await this.userRepository.listUsersRanking(params);
+    if(responseUserRanking === null) {
+      return err(new UserError({
+        name: "ERR_TO_GET_RANKING",
+        message: "Erro to ranking users",
+      }));
+    }
+
+    const { users, total, page } = responseUserRanking;
+
+    const mapUsers = users.map((user: any) => {
+      return {
+        id: user.id,
+        name: user.name,
+        balance: user.getAccount()?.balance || 0,
+      }
+    })
+
+
+    const map: RankingResponse = {
+      users: mapUsers,
+      page: page,
+      total: total,
+    }
+
+    return ok(map);
   }
 }

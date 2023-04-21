@@ -8,5 +8,6 @@ export default interface UserRepository {
   updateUser(user: User): Promise<boolean>
   updatePartialUser(params: any, userId: string): Promise<boolean | null>
   updatePassword(id: string, password: string): Promise<boolean>
+  listUsersRanking(params: any): Promise<any | null >
 }
 
