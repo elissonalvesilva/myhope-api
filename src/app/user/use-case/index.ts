@@ -318,6 +318,7 @@ export default class UserApplication {
         id: user.id,
         name: user.name,
         balance: user.getAccount()?.balance || 0,
+        image: user.image,
       }
     })
 
