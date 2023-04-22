@@ -143,8 +143,14 @@ export default class UserImplementation implements UserRepository {
         '$unwind': '$account'
       },
       {
-        '$sort': {
-          'balance': 1
+        '$setWindowFields': {
+          'partitionBy': 'account.balance',
+          'sortBy': { 'account.balance': 1 },
+          'output': {
+            'position': {
+              '$rank': {}
+            }
+          }
         }
       }, {
         '$facet': {
