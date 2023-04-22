@@ -16,7 +16,7 @@ export default class EmailServiceImpl implements EmailService {
     const transporter = nodemailer.createTransport({
       host: this.mailServiceConfig.MAIL_HOST,
       port: this.mailServiceConfig.MAIL_PORT,
-      secure: true,
+      secure: false,
       auth: {
           user: this.mailServiceConfig.MAIL_USER,
           pass: this.mailServiceConfig.MAIL_PASSWORD,
