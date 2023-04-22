@@ -20,13 +20,15 @@ export default class UpdateQuizController implements BaseController {
         questions,
         isWithTime,
         timeInSeconds,
+        quizStatus,
       } = request;
 
       const quiz = QuizFactory.create({
         id,
         type,
         isWithTime,
-        timeInSeconds
+        timeInSeconds,
+        quizStatus,
       }, questions)
 
       const response = await this.quizApplication.updateQuiz(quiz);

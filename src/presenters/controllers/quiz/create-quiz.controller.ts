@@ -18,13 +18,15 @@ export default class CreateQuizController implements BaseController {
         questions,
         isWithTime,
         timeInSeconds,
+        quizStatus
       } = request;
 
       const quiz = QuizFactory.create({
         id: this.hashing.hash(),
         type,
         isWithTime,
-        timeInSeconds
+        timeInSeconds,
+        quizStatus,
       }, questions)
 
       const response = await this.quizApplication.create(quiz)

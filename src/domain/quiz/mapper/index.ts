@@ -5,7 +5,7 @@ import Question from "../entity/question";
 
 export default class QuizMapper implements Mapper<Quiz> {
   toDomain(raw: any): Quiz {
-    return new Quiz(
+    const quiz =  new Quiz(
       raw.id,
       raw.type,
       raw.questions.map((question: any) => {
@@ -29,6 +29,12 @@ export default class QuizMapper implements Mapper<Quiz> {
         )
       }),
     )
+
+    if(raw.quizStatus) {
+      quiz.quizStatus = raw.quizStatus;
+    }
+
+    return quiz;
   }
   
   toPersistence(t: Quiz) {
@@ -54,6 +60,7 @@ export default class QuizMapper implements Mapper<Quiz> {
           },
         }
       }),
+      quizStatus: t.quizStatus,
     }
   }
   

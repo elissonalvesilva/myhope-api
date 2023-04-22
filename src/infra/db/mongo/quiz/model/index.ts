@@ -26,7 +26,11 @@ const quizSchema = new Schema({
   type: String,
   isWithTime: Boolean,
   timeInSeconds: Number,
-  questions: [{ type: questionSchema }]
+  questions: [{ type: questionSchema }],
+  quizStatus: {
+    type: String,
+    default: 'ACTIVE'
+  }
 }, { timestamps: true });
 
 answerSchema.set("toJSON", {

@@ -1,5 +1,6 @@
 import Question from "@/domain/quiz/entity/question";
 
+export type QuizStatus = 'ACTIVE' | 'INACTIVE' | 'SCHEDULED';
 
 export default class Quiz {
   private _id: string;
@@ -8,15 +9,18 @@ export default class Quiz {
   private _isWithTime: boolean = false;
   private _timeInSeconds?: number;
   private defaultTimeInSeconds: number = 600;
+  private _quizStatus: QuizStatus;
 
   constructor(
     id: string,
     type: string,
-    questions: Question[]
+    questions: Question[],
+    quizStatus: QuizStatus = 'ACTIVE',
   ) {
     this._id = id;
     this._type = type;
     this._questions = questions;
+    this._quizStatus = quizStatus;
   }
 
   get id() {
@@ -59,6 +63,14 @@ export default class Quiz {
     this._timeInSeconds = val
   }
 
+  get quizStatus () {
+    return this._quizStatus;
+  }
+
+  set quizStatus(val: QuizStatus) {
+    this._quizStatus = val;
+  }
+
   resultQuiz() {
     return this._questions.reduce((sum: number, question: Question) => {
       if(question.getSelectedAnswer()?.idAnswer === question.correctAnswer.idAnswer) {
@@ -75,6 +87,7 @@ export default class Quiz {
       questions: this._questions.map((question) => question.toJSON()),
       isWithTime: this._isWithTime,
       timeInSeconds: this._timeInSeconds || this.defaultTimeInSeconds,
+      quizStatus: this._quizStatus,
     }
   }
   

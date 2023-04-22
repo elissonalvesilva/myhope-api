@@ -4,7 +4,7 @@ import Answer from "@/domain/quiz/entity/answer";
 
 export default class QuizFactory {
   static create(quiz: any, questions: any[]): Quiz {
-    return new Quiz(
+    const quizBuilded = new Quiz(
       quiz.id,
       quiz.type,
       questions.map((question) => {
@@ -28,5 +28,11 @@ export default class QuizFactory {
         )
       })
     );
+
+    if(quiz.quizStatus) {
+      quizBuilded.quizStatus = quiz.quizStatus;
+    }
+
+    return quizBuilded;
   }
 }
