@@ -144,8 +144,8 @@ export default class UserImplementation implements UserRepository {
       },
       {
         '$setWindowFields': {
-          'partitionBy': 'account.balance',
-          'sortBy': { 'account.balance': 1 },
+          'partitionBy': 'account.accountNumber',
+          'sortBy': { 'account.balance': -1 },
           'output': {
             'position': {
               '$rank': {}
@@ -165,9 +165,9 @@ export default class UserImplementation implements UserRepository {
           ], 
           'data': [
             {
-              '$skip': params.page === 1 ? 0 : params.page * params.limit
+              '$skip': params.page === 1 ? 0 : (params.page - 1) * params.limit
             }, {
-              '$limit': params.limit || 10
+              '$limit': params.limit * 1 || 10
             }
           ]
         }

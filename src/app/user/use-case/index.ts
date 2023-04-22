@@ -312,13 +312,13 @@ export default class UserApplication {
     }
 
     const { users, total, page } = responseUserRanking;
-
     const mapUsers = users.map((user: any) => {
       return {
         id: user.id,
         name: user.name,
         balance: user.getAccount()?.balance || 0,
         image: user.image,
+        position: user.position,
       }
     })
 

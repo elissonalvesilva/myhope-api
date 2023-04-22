@@ -31,6 +31,10 @@ export default class UserMapper implements Mapper<User> {
       user.firstAccess = raw.firstAccess;
     }
 
+    if(raw.position) {
+      user.position = raw.position;
+    }
+
     return user;
   }
 
