@@ -27,7 +27,7 @@ export default class EmailServiceImpl implements EmailService {
     let mailOptions = {
       from: this.mailServiceConfig.MAIL_FROM,
       to: email,
-      subject: 'Reset Password',
+      subject: 'Recuperação de Conta',
       html: template({
         reset: code.toString(),
       })
