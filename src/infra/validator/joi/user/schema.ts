@@ -41,4 +41,5 @@ export const UpdateUserSchema = Joi.object({
   email: Joi.string().email().optional(),
   lastName: Joi.string().min(3).optional(),
   image: Joi.string().min(30).optional(),
+  firstAccess: Joi.boolean().optional(),
 })
