@@ -47,6 +47,7 @@ export default class UserApplication {
       image: response.image,
       finishedQuizzes: response.finishedQuizzes,
       firstAccess: response.firstAccess,
+      position: response.position,
     }
 
     return ok(user);
@@ -76,6 +77,7 @@ export default class UserApplication {
       image: response.image,
       finishedQuizzes: response.finishedQuizzes,
       firstAccess: response.firstAccess,
+      position: response.position,
     }
     return ok(user);
   }

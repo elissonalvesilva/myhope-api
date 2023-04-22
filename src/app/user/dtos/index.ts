@@ -49,6 +49,7 @@ export interface UserResponseDTO {
   status: Status;
   finishedQuizzes?: Quiz[];
   firstAccess?: boolean;
+  position?: number;
 }
 
 
