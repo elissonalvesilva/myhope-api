@@ -108,16 +108,16 @@ export default class UserImplementation implements UserRepository {
 
   private buildUpdateParams(params: { [key: string]: any }): any {
     return {
-      $set: params
+      '$set': params
     }
   }
 
   async updatePartialUser(params: any, userId: string): Promise<boolean | null> {
     try {
       const buildedParams = this.buildUpdateParams(params);
-      const user = await UserModel.findByIdAndUpdate(userId, buildedParams);
+      const user = await UserModel.updateOne({id: userId}, buildedParams);
       if(user) {
-        if(user.isModified()) {
+        if(user.modifiedCount > 0) {
           return true;
         }
         return false;

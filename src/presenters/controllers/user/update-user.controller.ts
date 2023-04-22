@@ -31,6 +31,7 @@ export default class UpdateUserController implements BaseController {
             return conflitRequest(response.value);
           }
           default: {
+            console.log(response.value)
             return badRequest(new Error("Unreconized error"));
           }
         }
