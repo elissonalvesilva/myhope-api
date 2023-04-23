@@ -20,6 +20,9 @@ export default class UserMapper implements Mapper<User> {
 
     if(raw.account) {
       const account = new Account(raw.account.id, raw.account.accountNumber, raw.account.balance, raw.account.id);
+      if(raw.account?.statements) {
+        account.statements = raw.account.statements;
+      }
       user.addAccount(account);
     }
 
@@ -33,6 +36,10 @@ export default class UserMapper implements Mapper<User> {
 
     if(raw.position) {
       user.position = raw.position;
+    }
+
+    if(raw.image) {
+      user.image = raw.image;
     }
 
     return user;

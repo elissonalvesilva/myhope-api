@@ -11,8 +11,8 @@ export default class AccountApplication {
     private readonly accountRepository: AccountRepository,
   ){}
 
-  async updateUserBalance(userId: string, value: number): Promise<Result<boolean, AccountError>> {
-    const account = await this.accountRepository.getAccountByUserId(userId);
+  async updateUserBalance(accountId: string, value: number): Promise<Result<boolean, AccountError>> {
+    const account = await this.accountRepository.getAccountById(accountId);
     if(!account) {
       return err(new AccountError({
         name: "ERR_ACCOUNT_NOT_FOUND",

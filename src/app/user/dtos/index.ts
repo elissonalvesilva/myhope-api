@@ -1,3 +1,4 @@
+import Statement from "@/domain/account/entity/statement";
 import Quiz from "@/domain/quiz/entity";
 import { Status } from "@/domain/user/entity";
 
@@ -42,9 +43,10 @@ export interface UserResponseDTO {
   email: string;
   image?: string;
   account?: {
-    id?: string,
-    accountNumber?: string,
-    balance?: number
+    id?: string;
+    accountNumber?: string;
+    balance?: number;
+    statements?: Statement[],
   };
   status: Status;
   finishedQuizzes?: Quiz[];
@@ -62,7 +64,8 @@ export default interface UserDTO {
   account: {
     id: string,
     accountNumber: string,
-    balance: number
+    balance: number,
+    statements?: Statement[],
   };
   status: Status;
   finishedQuizzes?: Quiz[];

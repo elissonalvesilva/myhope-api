@@ -40,7 +40,8 @@ export default class UserApplication {
       account: {
         id: response.getAccount()?.id,
         accountNumber: response.getAccount()?.accountNumber,
-        balance: response.getAccount()?.balance
+        balance: response.getAccount()?.balance,
+        statements: response.getAccount()?.statements,
       },
       email: response.email,
       status: response.status,
@@ -62,7 +63,7 @@ export default class UserApplication {
         cause: { email }
       }));
     }
-
+    console.log(response);
     const user: UserResponseDTO = {
       id: response.id,
       name: response.name,
@@ -70,7 +71,8 @@ export default class UserApplication {
       account: {
         id: response.getAccount()?.id,
         accountNumber: response.getAccount()?.accountNumber,
-        balance: response.getAccount()?.balance
+        balance: response.getAccount()?.balance,
+        statements: response.getAccount()?.statements,
       },
       email: response.email,
       status: response.status,

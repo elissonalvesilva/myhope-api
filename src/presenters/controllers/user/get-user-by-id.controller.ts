@@ -30,6 +30,7 @@ export default class GetUserByIdController implements BaseController {
 
       return ok(user.value);
     } catch (error: any) {
+      console.log(error);
       return serverError(error);
     }
   }

@@ -13,10 +13,11 @@ export default class AccountController implements BaseController {
   async handle(request: any): Promise<HttpResponse> {
     try {
       const {
+        accountId,
         amount,
       } = request;
 
-      const response = await this.accountApplication.updateUserBalance(request.userId, amount);
+      const response = await this.accountApplication.updateUserBalance(accountId, amount);
       if(response.isErr()){
         const errCode = response.value.name;
         switch(errCode) {
