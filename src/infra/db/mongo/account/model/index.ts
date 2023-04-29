@@ -10,6 +10,7 @@ const statementSchema = new Schema({
     ref: 'Account',
     type: mongoose.Types.ObjectId,
   },
+  value: Number,
 })
 
 

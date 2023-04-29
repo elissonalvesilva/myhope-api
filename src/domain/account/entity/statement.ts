@@ -3,6 +3,7 @@ export default class Statement {
   private _date: Date;
   private _content: string;
   private _accountId: string;
+  private _value?: number;
 
   constructor(
     id: string,
@@ -48,12 +49,21 @@ export default class Statement {
     this._accountId = id;
   }
 
+  get value() {
+    return this._value || 0;
+  }
+
+  set value(val: number) {
+    this._value = val;
+  } 
+
   toJSON() {
     return {
       id: this._id,
       date: this._date,
       content: this._content,
       accountId: this._accountId,
+      value: this._value,
     }
   }
 }

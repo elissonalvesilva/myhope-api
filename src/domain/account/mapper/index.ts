@@ -13,12 +13,13 @@ export default class AccountMapper implements Mapper<Account> {
 
     if('statements' in raw && raw?.statements?.length > 0) {
       account.statements = raw.statements.map((statement: any) => {
-        return new Statement(
+        const stm = new Statement(
           statement.id,
           statement.date,
           statement.content,
           raw.id,
-        )
+        );
+        stm.value = statement.value
       });
     }
 

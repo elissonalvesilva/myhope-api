@@ -15,9 +15,10 @@ export default class AccountController implements BaseController {
       const {
         accountId,
         amount,
+        reason,
       } = request;
 
-      const response = await this.accountApplication.updateUserBalance(accountId, amount);
+      const response = await this.accountApplication.updateUserBalance(accountId, amount, reason);
       if(response.isErr()){
         const errCode = response.value.name;
         switch(errCode) {

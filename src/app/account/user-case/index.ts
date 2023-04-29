@@ -11,7 +11,7 @@ export default class AccountApplication {
     private readonly accountRepository: AccountRepository,
   ){}
 
-  async updateUserBalance(accountId: string, value: number): Promise<Result<boolean, AccountError>> {
+  async updateUserBalance(accountId: string, value: number, reason: string): Promise<Result<boolean, AccountError>> {
     const account = await this.accountRepository.getAccountById(accountId);
     if(!account) {
       return err(new AccountError({
@@ -31,9 +31,11 @@ export default class AccountApplication {
     const statement = new Statement(
       this.hashing.hashId(),
       new Date(),
-      value.toString(),
+      reason,
       account.id,
     );
+
+    statement.value = value;
 
     const resp = await this.accountRepository.addStatements(account, statement);
     if(!resp) {

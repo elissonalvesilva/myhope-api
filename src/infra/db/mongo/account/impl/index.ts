@@ -66,6 +66,7 @@ export default class AccountImplementation implements AccountRepository {
   }
   async addStatements(account: Account, statement: Statement): Promise<boolean>{
     try {
+
       const response = await AccountModel.updateOne({
         id: account.id,
       }, {
